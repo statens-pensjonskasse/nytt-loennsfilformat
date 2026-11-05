@@ -1,0 +1,20 @@
+{
+  "versjon" : "0.1.0-SNAPSHOT",
+  "innsendingsId" : "sluttaarsaker-2",
+  "mottaksreferanse" : "a7b6c3a2-c757-3dad-88c1-cb4734916c36",
+  "mottakstidspunkt" : "2026-09-04T10:00:00Z",
+  "status" : "FERDIG",
+  "personer" : [ {
+    "indeks" : 0,
+    "status" : "OK"
+  }, {
+    "indeks" : 1,
+    "status" : "OK"
+  }, {
+    "indeks" : 2,
+    "status" : "OK"
+  }, {
+    "indeks" : 3,
+    "status" : "OK"
+  } ]
+}

@@ -1,0 +1,11 @@
+{
+  "versjon" : "0.1.0-SNAPSHOT",
+  "innsendingsId" : "opphold-2",
+  "mottaksreferanse" : "8a2bb968-05e9-3343-a342-f26733048af6",
+  "mottakstidspunkt" : "2026-06-10T10:00:00Z",
+  "status" : "FERDIG",
+  "personer" : [ {
+    "indeks" : 0,
+    "status" : "OK"
+  } ]
+}

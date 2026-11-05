@@ -1,0 +1,11 @@
+{
+  "versjon" : "0.1.0-SNAPSHOT",
+  "innsendingsId" : "ny-ansatt-4",
+  "mottaksreferanse" : "299153a8-eaf8-379d-82ad-b48b308854f8",
+  "mottakstidspunkt" : "2027-01-12T10:00:00Z",
+  "status" : "FERDIG",
+  "personer" : [ {
+    "indeks" : 0,
+    "status" : "OK"
+  } ]
+}

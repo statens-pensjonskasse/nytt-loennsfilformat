@@ -1,0 +1,830 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spk.no/schemas/spk-medlemsdata/json/tidslinje.json",
+  "title": "Innsending av tidslinjer",
+  "description": "Lønns- og stillingsdata fra en arbeidsgiver som tidslinjer. For hver person sendes tidslinjen fra og med en dato: SPK beholder alt før gjelderFraOgMed og erstatter alt fra og med den datoen med periodene i innsendingen. Innsendingen dekker tidsrommet registrertFra–registrertTilOgMed, og neste innsending starter der denne slapp. Kravet om at alt er med gjelder per person: en person er med når den står i personer, og da er alt som er registrert for personen til og med registrertTilOgMed og ikke er sendt før, med. Slik faller ingenting for personen mellom eller sendes to ganger. En person med endringer i tidsrommet trenger ikke være med; endringene sendes da i en senere innsending. Tidslinjen for personen sendes fra og med den tidligste endringen som ikke er sendt, så den står på egne ben uansett hvilken innsending den kommer i. SPK tar imot innsendingen, lagrer den og svarer med en sti til kvitteringen; sjekkene og anvendelsen skjer etterpå. SPK anvender innsendingene i rekkefølgen de tas imot, og avsender sender én innsending om gangen per arbeidsgiver og venter på at kvitteringen er FERDIG eller AVVIST før neste.",
+  "$comment": "Status: utkast",
+  "type": "object",
+  "properties": {
+    "versjon": {
+      "$ref": "felles.json#/$defs/versjon"
+    },
+    "innsendingsId": {
+      "$ref": "felles.json#/$defs/referanse",
+      "title": "Innsendings-ID",
+      "description": "Avsenders unike ID for innsendingen per innsender, lønnssystem og arbeidsgiver, og idempotensnøkkelen for den. En innsending med samme ID og samme innhold sendt på nytt, for eksempel etter tidsavbrudd, tas ikke imot igjen, men svaret peker på kvitteringen fra første gang. Samme ID med annet innhold avvises med INNSENDINGSID_GJENBRUKT. En innsending som er tatt imot, har brukt ID-en, også når den avvises i behandlingen: en rettet innsending sendes med ny ID. En innsending som avvises ved mottak, er ikke lagret, og ID-en kan brukes igjen."
+    },
+    "innsendingstidspunkt": {
+      "$ref": "felles.json#/$defs/tidspunkt",
+      "title": "Innsendingstidspunkt",
+      "description": "Når innsendingen ble generert. Brukes til sporing og feilsøking"
+    },
+    "registrertFra": {
+      "$ref": "felles.json#/$defs/tidspunkt",
+      "title": "Registrert fra",
+      "description": "Begynnelsen av tidsrommet innsendingen dekker: registrertTilOgMed fra forrige innsending for arbeidsgiveren. Endringer for personene som er med, registrert fra og med dette tidspunktet, er med. Endringer for personer som ikke er med, kan også være registrert før dette tidspunktet, hvis de ikke er sendt før."
+    },
+    "registrertTilOgMed": {
+      "$ref": "felles.json#/$defs/tidspunkt",
+      "title": "Registrert til og med",
+      "description": "Slutten av tidsrommet innsendingen dekker. For personene som er med, er alle endringer registrert til og med dette tidspunktet med. Kan være forskjellig fra innsendingstidspunkt, for eksempel slutten av en periode lønnssystemet har lukket når uttrekket lages senere."
+    },
+    "avsender": {
+      "$ref": "#/$defs/avsender"
+    },
+    "arbeidsgiver": {
+      "$ref": "#/$defs/arbeidsgiver"
+    },
+    "personer": {
+      "title": "Personer",
+      "description": "Personene innsendingen har endringer for, hver person høyst én gang, med alle endringene registrert til og med registrertTilOgMed som ikke er sendt før: stillingsidendringer, tidslinje og timer. Hver person behandles for seg og uavhengig av de andre. Personer med endringer som ikke er med her, sendes i en senere innsending. Tom når innsendingen ikke har endringer.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/person"
+      }
+    }
+  },
+  "required": [
+    "versjon",
+    "innsendingsId",
+    "innsendingstidspunkt",
+    "registrertFra",
+    "registrertTilOgMed",
+    "avsender",
+    "arbeidsgiver",
+    "personer"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "avsender": {
+      "title": "Avsender",
+      "description": "Lønnssystemet innsendingen kommer fra. Brukes ved feilsøking av ugyldige data.",
+      "type": "object",
+      "properties": {
+        "loennssystemkode": {
+          "title": "Lønnssystemkode",
+          "description": "Kode tildelt av SPK",
+          "type": "string",
+          "pattern": "^[A-Z0-9]{1,10}$"
+        },
+        "systemnavn": {
+          "title": "Systemnavn",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^\\S(.*\\S)?$"
+        },
+        "systemversjon": {
+          "title": "Systemversjon",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^\\S(.*\\S)?$"
+        }
+      },
+      "required": [
+        "loennssystemkode",
+        "systemnavn",
+        "systemversjon"
+      ],
+      "additionalProperties": false
+    },
+    "arbeidsgiver": {
+      "title": "Arbeidsgiver",
+      "description": "Arbeidsgiveren det rapporteres for. En arbeidsgiver per innsending",
+      "type": "object",
+      "properties": {
+        "organisasjonsnummer": {
+          "title": "Organisasjonsnummer",
+          "description": "Organisasjonsnummer i Enhetsregisteret, 9 siffer. Kontrollsiffer valideres i forretningslaget",
+          "type": "string",
+          "pattern": "^[0-9]{9}$",
+          "examples": [
+            "916593473"
+          ]
+        }
+      },
+      "required": [
+        "organisasjonsnummer"
+      ],
+      "additionalProperties": false
+    },
+    "person": {
+      "title": "Person",
+      "description": "Alt innsendingen har for én person hos arbeidsgiveren. Personen er enheten SPK behandler: stillingsidendringene anvendes først, så tidslinjen og til slutt timene, og alt for personen lagres samlet. En feil hvor som helst i personen avviser hele personen. Minst én av stillingsidendringer, tidslinje og timer er med.",
+      "type": "object",
+      "properties": {
+        "foedselsnummer": {
+          "$ref": "felles.json#/$defs/foedselsnummer"
+        },
+        "stillingsidendringer": {
+          "title": "Endringer av stillings-ID",
+          "description": "Stillinger som har fått ny stillingsid, for eksempel ved bytte av lønnssystem. Anvendes før tidslinjen og timene, så de kan bruke de nye ID-ene. Hver tidligereStillingsid høyst én gang. Utelates når ingen ID er endret.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/stillingsidendring"
+          }
+        },
+        "tidslinje": {
+          "$ref": "#/$defs/tidslinje"
+        },
+        "timer": {
+          "title": "Timer",
+          "description": "Timer registrert til og med registrertTilOgMed og ikke sendt før, hver kombinasjon av stilling og måned høyst én gang. Timer føres per måned og gjelder ikke inntil videre, så de sendes ved siden av tidslinjen; en person kan ha timer uten tidslinje. Utelates når ingen timer er registrert.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/timer"
+          }
+        }
+      },
+      "required": [
+        "foedselsnummer"
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "stillingsidendringer"
+          ]
+        },
+        {
+          "required": [
+            "tidslinje"
+          ]
+        },
+        {
+          "required": [
+            "timer"
+          ]
+        }
+      ],
+      "additionalProperties": false
+    },
+    "tidslinje": {
+      "title": "Tidslinje",
+      "description": "Tidslinjen for personen hos arbeidsgiveren fra og med gjelderFraOgMed. Alt SPK har fra og med denne datoen erstattes av periodene her. Tom periodeliste fjerner alt fra og med datoen. Utelates når tidslinjen ikke er endret.",
+      "type": "object",
+      "properties": {
+        "gjelderFraOgMed": {
+          "$ref": "felles.json#/$defs/dato",
+          "title": "Gjelder fra og med",
+          "description": "Datoen tidslinjen erstattes fra. Ved endring tilbake i tid: datoen endringen gjelder fra. Alle senere perioder må være med, også de som ikke endres."
+        },
+        "perioder": {
+          "title": "Perioder",
+          "description": "Perioder uten overlapp, i hvilken som helst rekkefølge. Et opphold mellom to perioder betyr at personen ikke er ansatt i oppholdet. Bare perioden som starter sist, kan være løpende.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/periode"
+          }
+        }
+      },
+      "required": [
+        "gjelderFraOgMed",
+        "perioder"
+      ],
+      "additionalProperties": false
+    },
+    "periode": {
+      "title": "Periode",
+      "description": "En periode der personens stillinger, lønn og permisjon er uendret.",
+      "type": "object",
+      "properties": {
+        "fraOgMed": {
+          "$ref": "felles.json#/$defs/dato",
+          "title": "Fra og med"
+        },
+        "tilOgMed": {
+          "$ref": "felles.json#/$defs/dato",
+          "title": "Til og med",
+          "description": "Siste dag i perioden. Utelates når perioden er løpende, det vil si gjeldende tilstand. Satt på siste periode, eller fulgt av et opphold, betyr at personen har sluttet."
+        },
+        "sluttaarsak": {
+          "title": "Sluttårsak",
+          "description": "Hvorfor personen sluttet. Oppgis når personen slutter, det vil si når perioden har tilOgMed og ikke følges direkte av en ny periode. Oppgis ikke ellers.",
+          "$comment": "Forslag.",
+          "type": "string",
+          "oneOf": [
+            {
+              "const": "ORDINAER",
+              "title": "Vanlig fratreden"
+            },
+            {
+              "const": "ALDERSPENSJON",
+              "title": "Overgang til alderspensjon"
+            },
+            {
+              "const": "UFOEREPENSJON",
+              "title": "Overgang til uførepensjon"
+            },
+            {
+              "const": "DOED",
+              "title": "Personen er død"
+            }
+          ]
+        },
+        "stillingsforhold": {
+          "title": "Stillingsforhold",
+          "description": "Personens stillinger i perioden",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/stillingsforhold"
+          }
+        }
+      },
+      "required": [
+        "fraOgMed",
+        "stillingsforhold"
+      ],
+      "dependentRequired": {
+        "sluttaarsak": [
+          "tilOgMed"
+        ]
+      },
+      "additionalProperties": false
+    },
+    "stillingsforhold": {
+      "title": "Stillingsforhold",
+      "description": "Én stilling slik den er i lønnssystemet, med arbeidsinntekt og eventuell permisjon i perioden. Flere stillinger hos samme arbeidsgiver sendes hver for seg og slås ikke sammen.",
+      "type": "object",
+      "properties": {
+        "stillingsid": {
+          "$ref": "felles.json#/$defs/referanse",
+          "title": "Stillings-ID",
+          "description": "Lønnssystemets stabile ID for stillingen, fra den begynner til den slutter. Samme stilling har samme ID i alle innsendinger; hver stilling høyst én gang per periode. Endringer i stillingen, som stillingsprosent, lønn og permisjon, meldes på samme ID og gir ikke ny stilling. En ID gjenbrukes aldri: en ansatt som slutter og begynner igjen, også i samme jobb hos samme arbeidsgiver, får en ny stilling med ny ID. En stilling hører til ett organisasjonsnummer; arbeid for et annet organisasjonsnummer er en ny stilling. ID-en endres bare med stillingsidendringer."
+        },
+        "pensjonsordning": {
+          "title": "Pensjonsordning",
+          "description": "TP-nummeret til pensjonsordningen stillingen er meldt inn i, f.eks. 3010 for Statens pensjonskasse. Brukes til ruting i et felles mottak og til å validere stillingskoder og tillegg mot reglene for ordningen.",
+          "type": "string",
+          "pattern": "^[0-9]{4}$",
+          "examples": [
+            "3010"
+          ]
+        },
+        "gruppe": {
+          "title": "Gruppe",
+          "description": "Arbeidsgivers egen grupperingsnøkkel for å knytte stillingen til riktig avtale, f.eks. avdelings-ID eller avdelingsnavn. Trengs bare for arbeidsgivere med flere avtaler; arbeidsgiver registrerer i Min virksomhet hvilken gruppe hver avtale gjelder for. Erstatter standardavtalen og smittelogikken i dagens mottak: SPK gjetter ikke på avtale. Med gruppe knyttes stillingen til avtalen gruppen er registrert på, og en ny gruppe fra en dato flytter stillingen til den avtalen fra den datoen. En gruppe som ikke er registrert, avviser personen (GRUPPE_UKJENT). Uten gruppe beholder en stilling SPK kjenner, avtalen den har; har personen en ny stilling, holdes hele tidslinjen igjen (MANUELL) til arbeidsgiveren har valgt eller bekreftet avtalen i Min virksomhet (GRUPPE_MANGLER). Hos arbeidsgivere med én avtale brukes ikke gruppe. Ikke tom, uten innledende eller avsluttende mellomrom og uten linjeskift.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^\\S(.*\\S)?$",
+          "examples": [
+            "42",
+            "Avdeling Bergen"
+          ]
+        },
+        "stilling": {
+          "$ref": "#/$defs/stilling"
+        },
+        "arbeidsinntekt": {
+          "$ref": "#/$defs/arbeidsinntekt"
+        },
+        "permisjon": {
+          "$ref": "#/$defs/permisjon"
+        }
+      },
+      "required": [
+        "stillingsid",
+        "pensjonsordning",
+        "stilling",
+        "arbeidsinntekt"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "arbeidsinntekt": {
+                "properties": {
+                  "regulativ": {
+                    "const": "073"
+                  }
+                },
+                "required": [
+                  "regulativ"
+                ]
+              }
+            },
+            "required": [
+              "arbeidsinntekt"
+            ]
+          },
+          "then": {
+            "properties": {
+              "stilling": {
+                "required": [
+                  "stillingskode"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "arbeidsinntekt": {
+                "properties": {
+                  "regulativ": {
+                    "const": "075"
+                  }
+                },
+                "required": [
+                  "regulativ"
+                ]
+              }
+            },
+            "required": [
+              "arbeidsinntekt"
+            ]
+          },
+          "then": {
+            "properties": {
+              "stilling": {
+                "required": [
+                  "stillingsbetegnelse"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "stilling": {
+                "properties": {
+                  "loennsform": {
+                    "const": "TIMELOENNET"
+                  }
+                },
+                "required": [
+                  "loennsform"
+                ]
+              }
+            },
+            "required": [
+              "stilling"
+            ]
+          },
+          "then": {
+            "properties": {
+              "arbeidsinntekt": {
+                "not": {
+                  "required": [
+                    "hovedloennOere"
+                  ]
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "arbeidsinntekt": {
+                "required": [
+                  "hovedloennOere"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "stilling": {
+      "title": "Stilling",
+      "description": "Stillingsopplysninger. Enten stillingskode eller stillingsbetegnelse skal oppgis, ikke begge",
+      "type": "object",
+      "properties": {
+        "stillingskode": {
+          "title": "Stillingskode",
+          "description": "Stillingskode etter statens regulativ eller apotekregulativet, 4 siffer. Oppgis når stillingen følger statens regulativ eller apotekregulativet",
+          "type": "string",
+          "pattern": "^[0-9]{4}$",
+          "examples": [
+            "1434",
+            "1092"
+          ]
+        },
+        "stillingsbetegnelse": {
+          "title": "Stillingsbetegnelse",
+          "description": "Stillingsbetegnelse etter egen lønnsplan. Ikke tom, uten innledende eller avsluttende mellomrom og uten linjeskift. Oppgis kun når stillingskode ikke kan brukes",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^\\S(.*\\S)?$",
+          "examples": [
+            "Seniorrådgiver"
+          ]
+        },
+        "stillingsstoerrelseBasispunkter": {
+          "$ref": "felles.json#/$defs/basispunkter",
+          "title": "Stillingsstørrelse",
+          "description": "Stillingsstørrelse i basispunkter (10 000 = 100 % arbeidstid) for denne stillingen alene. Stillingsstørrelsen er den personen hadde før en eventuell permisjon. Utelates for timelønnede; den regnes ut fra timene."
+        },
+        "aldersgrense": {
+          "title": "Aldersgrense",
+          "description": "Aldersgrensen i stillingen. Hver aldersgrense følges som et eget spor; 70 og 72 er samme spor.",
+          "type": "integer",
+          "oneOf": [
+            {
+              "const": 72,
+              "title": "Alminnelig aldersgrense fra 2026-01-01"
+            },
+            {
+              "const": 70,
+              "title": "Alminnelig aldersgrense til og med 2025-12-31"
+            },
+            {
+              "const": 65,
+              "title": "Særaldersgrense 65 år"
+            },
+            {
+              "const": 63,
+              "title": "Særaldersgrense 63 år"
+            },
+            {
+              "const": 60,
+              "title": "Særaldersgrense 60 år"
+            }
+          ]
+        },
+        "stillingsinnehav": {
+          "title": "Stillingsinnehav",
+          "description": "Hvordan personen har stillingen.",
+          "type": "string",
+          "default": "ORDINAER",
+          "oneOf": [
+            {
+              "const": "ORDINAER",
+              "title": "Personen har stillingen på vanlig måte"
+            },
+            {
+              "const": "MIDLERTIDIG_MED_HOEYERE_LOENN",
+              "title": "Midlertidig stilling med høyere lønn, også fungering, fra første dag og uansett varighet"
+            }
+          ]
+        },
+        "loennsform": {
+          "title": "Lønnsform",
+          "description": "Hvordan stillingen lønnes.",
+          "type": "string",
+          "default": "MAANEDSLOENNET",
+          "oneOf": [
+            {
+              "const": "MAANEDSLOENNET",
+              "title": "Stillingen har fast stillingsstørrelse og hovedlønn"
+            },
+            {
+              "const": "TIMELOENNET",
+              "title": "Stillingen lønnes per time. Stillingsstørrelse og hovedlønn utelates og regnes ut fra timene for hver måned"
+            }
+          ]
+        },
+        "aarstimetall": {
+          "title": "Årstimetall",
+          "description": "Antall arbeidstimer i full stilling per år, for eksempel 1695 i staten. Brukes til å regne timer om til stillingsstørrelse: timer i måneden delt på årstimetall/12. Påkrevd for timelønnede. For en månedslønnet stilling trengs det når det sendes ekstratimer i stillingen.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8784,
+          "examples": [
+            1695,
+            1950
+          ]
+        },
+        "ansettelsesform": {
+          "title": "Ansettelsesform",
+          "description": "Fast eller midlertidig ansettelse. Utelates når lønnssystemet ikke har opplysningen.",
+          "type": "string",
+          "oneOf": [
+            {
+              "const": "FAST",
+              "title": "Fast ansatt"
+            },
+            {
+              "const": "MIDLERTIDIG",
+              "title": "Midlertidig ansatt"
+            }
+          ]
+        }
+      },
+      "required": [
+        "aldersgrense"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "stillingskode"
+          ]
+        },
+        {
+          "required": [
+            "stillingsbetegnelse"
+          ]
+        }
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "loennsform": {
+                "const": "TIMELOENNET"
+              }
+            },
+            "required": [
+              "loennsform"
+            ]
+          },
+          "then": {
+            "required": [
+              "aarstimetall"
+            ],
+            "not": {
+              "required": [
+                "stillingsstoerrelseBasispunkter"
+              ]
+            }
+          },
+          "else": {
+            "required": [
+              "stillingsstoerrelseBasispunkter"
+            ]
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "arbeidsinntekt": {
+      "title": "Arbeidsinntekt",
+      "description": "Arbeidsinntekten i stillingsforholdet i perioden: hovedlønn og pensjonsgivende tillegg. Den utgjør pensjonsgrunnlaget som rapporteres (SPKs begrepskatalog: arbeidsinntekt)",
+      "type": "object",
+      "properties": {
+        "regulativ": {
+          "title": "Regulativ",
+          "description": "Regulativet lønnen fastsettes etter.",
+          "type": "string",
+          "oneOf": [
+            {
+              "const": "073",
+              "title": "Overenskomstlønn etter statens lønnsplan (tarifflønn), meldes med stillingskode"
+            },
+            {
+              "const": "075",
+              "title": "Individuell avlønning, meldes med stillingsbetegnelse"
+            },
+            {
+              "const": "105",
+              "title": "Pensjonsordningen for apotekvirksomhet (POA), meldes med stillingskode etter apotekregulativet eller stillingsbetegnelse"
+            }
+          ]
+        },
+        "hovedloennOere": {
+          "$ref": "felles.json#/$defs/beloepOere",
+          "title": "Hovedlønn",
+          "description": "Faktisk utbetalt årslønn i den stillingsstørrelsen den ansatte har, ikke omregnet til 100%. Inkluderer eventuelle kronetillegg fra lokale forhandlinger. Utelates for timelønnede; lønnen for timene sendes med timene."
+        },
+        "tillegg": {
+          "$ref": "#/$defs/tillegg"
+        }
+      },
+      "required": [
+        "regulativ"
+      ],
+      "additionalProperties": false
+    },
+    "tillegg": {
+      "title": "Tillegg",
+      "description": "Pensjonsgivende tillegg per måned. Har personen flere tillegg av samme slag, oppgis summen. Et tillegg som ikke er med, er 0.",
+      "type": "object",
+      "properties": {
+        "fasteTilleggOere": {
+          "$ref": "felles.json#/$defs/beloepOere",
+          "title": "Faste tillegg",
+          "description": "Pensjonsgivende faste tillegg per måned, deltidsjustert"
+        },
+        "variableTilleggOere": {
+          "$ref": "felles.json#/$defs/beloepOere",
+          "title": "Variable tillegg",
+          "description": "Pensjonsgivende variable tillegg per måned, deltidsjustert"
+        },
+        "funksjonstilleggOere": {
+          "$ref": "felles.json#/$defs/beloepOere",
+          "title": "Funksjonstillegg",
+          "description": "Pensjonsgivende funksjonstillegg per måned, ikke deltidsjustert"
+        }
+      },
+      "additionalProperties": false
+    },
+    "permisjon": {
+      "title": "Permisjon",
+      "description": "Permisjon uten lønn fra stillingen. Permisjon med full lønn og permisjon under 30 dager rapporteres ikke. Stillingsstørrelsen på stillingen er den personen hadde før permisjonen.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "title": "Permisjonstype",
+          "description": "Permisjon uten lønn eller med delvis lønn. Permisjon med full lønn meldes ikke.",
+          "type": "string",
+          "oneOf": [
+            {
+              "const": "HEL",
+              "title": "Hel permisjon uten lønn"
+            },
+            {
+              "const": "DELVIS",
+              "title": "Permisjon der en del av stillingen er uten lønn, også når hele stillingen er i permisjon med delvis lønn"
+            }
+          ]
+        },
+        "permisjonsavtale": {
+          "title": "Permisjonsavtale",
+          "description": "Punktet i permisjonsavtalen permisjonen gjelder etter. Kodene 1a–6b er permisjonsavtalen i staten; A.xx er apotekordningens egen avtale. Fødsel og adopsjon meldes som 6a, ikke 2a. Utelates for ulønnet permisjon som ikke medregnes. Hvor mange år som medregnes, fastsetter SPK selv fra 2026, og sendes ikke.",
+          "type": "string",
+          "oneOf": [
+            {
+              "const": "1a",
+              "title": "Militærtjeneste, sivilforsvarstjeneste, siviltjeneste og polititjeneste"
+            },
+            {
+              "const": "1b",
+              "title": "Sykdom i familien"
+            },
+            {
+              "const": "1c",
+              "title": "Streik"
+            },
+            {
+              "const": "2a",
+              "title": "Omsorgspermisjon for barn"
+            },
+            {
+              "const": "2b",
+              "title": "Studiepermisjon"
+            },
+            {
+              "const": "2c",
+              "title": "Flytting på grunn av ektefelle, registrert partner eller samboers beordringsplikt"
+            },
+            {
+              "const": "2d",
+              "title": "Sendelektor i utlandet"
+            },
+            {
+              "const": "3a",
+              "title": "Arbeid for internasjonale organisasjoner i utlandet"
+            },
+            {
+              "const": "4a",
+              "title": "Tjeneste i tjenestemannsorganisasjon"
+            },
+            {
+              "const": "4b",
+              "title": "Kommunale og fylkeskommunale verv"
+            },
+            {
+              "const": "4c",
+              "title": "Verv som domsmann eller meddommer"
+            },
+            {
+              "const": "5",
+              "title": "Permisjon forlenget etter søknad til SPK"
+            },
+            {
+              "const": "6a",
+              "title": "Fødsel og adopsjon"
+            },
+            {
+              "const": "6b",
+              "title": "Andre permisjoner godkjent av departementet"
+            },
+            {
+              "const": "A.01",
+              "title": "Apotek: adopsjon"
+            },
+            {
+              "const": "A.04",
+              "title": "Apotek: fødsel"
+            },
+            {
+              "const": "A.06",
+              "title": "Apotek: militærtjeneste, sivilforsvarstjeneste og siviltjeneste"
+            },
+            {
+              "const": "A.07",
+              "title": "Apotek: streik"
+            },
+            {
+              "const": "A.10",
+              "title": "Apotek: sykdom i familien"
+            },
+            {
+              "const": "A.12",
+              "title": "Apotek: videreutdanning for tjeneste i apotek i inn- og utland"
+            }
+          ]
+        },
+        "permisjonsprosentBasispunkter": {
+          "$ref": "felles.json#/$defs/basispunkter",
+          "title": "Permisjonsprosent",
+          "description": "Hvor stor del av stillingen permisjonen uten lønn gjelder, i basispunkter av stillingen: 2857 betyr at 28,57 % av stillingen er uten lønn. Påkrevd ved delvis permisjon. Er hele stillingen uten lønn, er det hel permisjon.",
+          "maximum": 9999
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "DELVIS"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "permisjonsprosentBasispunkter"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "permisjonsprosentBasispunkter"
+              ]
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "stillingsidendring": {
+      "title": "Endring av stillings-ID",
+      "description": "Ny stillingsid for en stilling SPK har fra før, typisk når arbeidsgiveren bytter lønnssystem og stillingene får nye ID-er. Stillingen er den samme: tidslinjen og timene SPK har på tidligereStillingsid, flyttes over på stillingsid. Uten endringen ser en ny ID ut som en ny stilling, og den gamle som en stilling uten tidslinje. Endringen anvendes før tidslinjen og timene for personen, så de kan bruke den nye ID-en.",
+      "type": "object",
+      "properties": {
+        "tidligereStillingsid": {
+          "$ref": "felles.json#/$defs/referanse",
+          "title": "Tidligere stillings-ID",
+          "description": "ID-en stillingen er meldt med til nå, for eksempel fra forrige lønnssystem. SPK må ha stillingen fra før."
+        },
+        "stillingsid": {
+          "$ref": "felles.json#/$defs/referanse",
+          "title": "Stillings-ID",
+          "description": "Den nye ID-en stillingen meldes med fra nå av. Avsender må ikke gjenbruke en ID som har vært brukt for personen før, heller ikke for en stilling som er avsluttet."
+        }
+      },
+      "required": [
+        "tidligereStillingsid",
+        "stillingsid"
+      ],
+      "additionalProperties": false
+    },
+    "timer": {
+      "title": "Timer",
+      "description": "Pensjonsgivende timer i én stilling i én måned, for timelønnede og for ekstratimer i en månedslønnet stilling. Overtid er ikke pensjonsgivende og er ikke med. Timene for samme person, stilling og måned i en senere innsending erstatter disse; 0 timer betyr at personen ikke jobbet i stillingen den måneden.",
+      "type": "object",
+      "properties": {
+        "stillingsid": {
+          "$ref": "felles.json#/$defs/referanse",
+          "title": "Stillings-ID",
+          "description": "stillingsid til stillingsforholdet timene gjelder, som i tidslinjen"
+        },
+        "maaned": {
+          "title": "Måned",
+          "description": "Kalendermåned etter ISO 8601 (YYYY-MM). Måneden timene ble arbeidet, ikke måneden de ble registrert eller utbetalt",
+          "type": "string",
+          "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+          "examples": [
+            "2026-06"
+          ]
+        },
+        "timerHundredeler": {
+          "title": "Timer i hundredeler",
+          "description": "Antall timer som heltall i hundredeler av en time: 11150 = 111,5 timer. Brukes i stedet for desimaltall slik at verdien aldri blir et flyttall. Høyst 744 timer, alle timene i en måned. Pensjonsgivende timer i måneden",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 74400,
+          "examples": [
+            1200,
+            11150
+          ]
+        },
+        "arbeidsinntektOere": {
+          "$ref": "felles.json#/$defs/beloepOere",
+          "title": "Arbeidsinntekt for timene",
+          "description": "Pensjonsgivende arbeidsinntekt for timene i måneden. Med flere timesatser er dette summen."
+        }
+      },
+      "required": [
+        "stillingsid",
+        "maaned",
+        "timerHundredeler",
+        "arbeidsinntektOere"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

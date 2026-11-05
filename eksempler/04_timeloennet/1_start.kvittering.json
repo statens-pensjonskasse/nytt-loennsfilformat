@@ -1,0 +1,11 @@
+{
+  "versjon" : "0.1.0-SNAPSHOT",
+  "innsendingsId" : "timeloennet-1",
+  "mottaksreferanse" : "149d303f-10c7-32bc-814f-eb2fb7d9bb34",
+  "mottakstidspunkt" : "2026-06-05T10:00:00Z",
+  "status" : "FERDIG",
+  "personer" : [ {
+    "indeks" : 0,
+    "status" : "OK"
+  } ]
+}

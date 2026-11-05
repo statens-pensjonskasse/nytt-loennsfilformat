@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spk.no/schemas/spk-medlemsdata/json/felles.json",
+  "title": "Felles typer",
+  "description": "Typer som brukes i både innsending og kvittering, eller flere steder i innsendingen.",
+  "$defs": {
+    "versjon": {
+      "title": "Skjemaversjon",
+      "description": "Versjonen av formatet innsendingen eller kvitteringen følger, Semantisk versjonering (https://semver.org). Så lenge formatet er en POC, er versjonen 0.x.y-SNAPSHOT og kan endres når som helst uten bakoverkompatibilitet; tidligere versjoner fjernes når en ny kommer. Fra 1.0.0 gjelder disse presiseringene: innenfor samme majorversjon skal filer som validerte tidligere, fortsatt validere; nye enum-verdier og nye valgfrie felter kan legges til i en minorversjon, men eksisterende verdier fjernes aldri uten ny majorversjon.",
+      "type": "string",
+      "enum": [
+        "0.1.0-SNAPSHOT"
+      ]
+    },
+    "referanse": {
+      "title": "Referanse",
+      "description": "Avsenders egen, stabile identifikator 1-64 tegn a-z/A-Z, sifre og . _ : -, der første tegn er en bokstav eller et siffer. Må ikke inneholde personopplysninger",
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,63}$",
+      "examples": [
+        "af-00002345",
+        "196be82b-b670-43a7-8978-ef1d2f7fd39c"
+      ]
+    },
+    "tidspunkt": {
+      "title": "Tidspunkt",
+      "description": "Tidspunkt etter RFC 3339 i UTC (Z), med valgfrie brøkdeler av sekund",
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]{1,9})?Z$",
+      "examples": [
+        "2026-01-31T13:30:00Z",
+        "2026-01-31T13:30:00.134Z"
+      ]
+    },
+    "dato": {
+      "title": "Dato",
+      "description": "Kalenderdato etter ISO 8601 (YYYY-MM-DD).",
+      "type": "string",
+      "format": "date",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$",
+      "examples": [
+        "2026-01-31",
+        "2026-12-01"
+      ]
+    },
+    "foedselsnummer": {
+      "title": "Fødselsnummer",
+      "description": "Fødselsnummer eller D-nummer fra Folkeregisteret, 11 siffer. Kontrollsiffer valideres i forretningslaget",
+      "type": "string",
+      "pattern": "^[0-9]{11}$",
+      "examples": [
+        "01010198220"
+      ]
+    },
+    "beloepOere": {
+      "title": "Beløp i øre",
+      "description": "Beløp i norske kroner oppgitt som heltall i øre: 100 = 1 krone. Brukes i stedet for desimaltall slik at verdien aldri blir et flyttall",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807,
+      "examples": [
+        48780000,
+        500000
+      ]
+    },
+    "basispunkter": {
+      "title": "Prosent i basispunkter",
+      "description": "Prosentandel som heltall i basispunkter, det vil si hundredeler av en prosent: 10 000 = 100%, 8 694 = 86,94%. Brukes i stedet for desimaltall slik at verdien aldri blir et flytall",
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 10000,
+      "examples": [
+        10000,
+        8694
+      ]
+    }
+  }
+}

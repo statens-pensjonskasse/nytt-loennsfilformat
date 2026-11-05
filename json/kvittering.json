@@ -1,0 +1,268 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spk.no/schemas/spk-medlemsdata/json/kvittering.json",
+  "title": "Kvittering for innsending av tidslinjer",
+  "description": "SPKs svar på en innsending. MOTTATT og BEHANDLES er foreløpige: avsender henter kvitteringen på nytt etter så mange sekunder som Retry-After sier, til den er FERDIG eller AVVIST. De to er endelige og endres ikke. Avsender sender ikke neste innsending for samme arbeidsgiver før kvitteringen er endelig. Personer identifiseres med plassen sin i innsendingen, ikke med fødselsnummer.",
+  "$comment": "Status: utkast",
+  "type": "object",
+  "properties": {
+    "versjon": {
+      "$ref": "felles.json#/$defs/versjon"
+    },
+    "innsendingsId": {
+      "$ref": "felles.json#/$defs/referanse",
+      "title": "Innsendings-ID",
+      "description": "innsendingsId fra innsendingen kvitteringen gjelder. Utelates bare når innsendingen er avvist ved mottak uten at ID-en er lest: innsendingen er for stor (INNSENDING_FOR_STOR), ikke gyldig JSON, eller ID-en mangler eller følger ikke skjemaet."
+    },
+    "mottaksreferanse": {
+      "title": "Mottaksreferanse",
+      "description": "SPKs referanse til innsendingen, laget ved mottak. Kvitteringen hentes der svaret på innsendingen peker med Location. Utelates bare når innsendingen er avvist ved mottak.",
+      "type": "string",
+      "format": "uuid"
+    },
+    "mottakstidspunkt": {
+      "$ref": "felles.json#/$defs/tidspunkt",
+      "title": "Mottakstidspunkt"
+    },
+    "status": {
+      "title": "Status",
+      "description": "MOTTATT: tatt imot, ikke behandlet. BEHANDLES: under behandling. FERDIG: behandlet, se resultat per person. AVVIST: hele innsendingen er avvist, se feil, enten ved mottak, uten mottaksreferanse, eller i behandlingen, med mottaksreferanse.",
+      "type": "string",
+      "enum": [
+        "MOTTATT",
+        "BEHANDLES",
+        "FERDIG",
+        "AVVIST"
+      ]
+    },
+    "feil": {
+      "title": "Feil",
+      "description": "Feil som gjelder hele innsendingen",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/feil"
+      }
+    },
+    "personer": {
+      "title": "Resultat per person",
+      "description": "Oppgis når status er FERDIG",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/personresultat"
+      }
+    }
+  },
+  "required": [
+    "versjon",
+    "mottakstidspunkt",
+    "status"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "not": {
+              "const": "AVVIST"
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "innsendingsId",
+          "mottaksreferanse"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "FERDIG"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "personer"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "AVVIST"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "feil"
+        ],
+        "properties": {
+          "feil": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "stillingskobling": {
+      "title": "Stillingskobling",
+      "type": "object",
+      "properties": {
+        "stillingsid": {
+          "title": "Stillingsid",
+          "description": "Den nye stillingsid-en fra avsender",
+          "type": "string",
+          "minLength": 1
+        },
+        "spkStillingsid": {
+          "title": "SPKs stillingsid",
+          "description": "ID-en SPK har for stillingen fra før. Er koblingen feil, er dette tidligereStillingsid i stillingsidendringen som retter den.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "stillingsid",
+        "spkStillingsid"
+      ],
+      "additionalProperties": false
+    },
+    "personresultat": {
+      "title": "Personresultat",
+      "type": "object",
+      "properties": {
+        "indeks": {
+          "title": "Indeks",
+          "description": "Personens plass i personer i innsendingen, regnet fra 0",
+          "type": "integer",
+          "minimum": 0
+        },
+        "status": {
+          "title": "Status",
+          "description": "OK: alt for personen er lagret: stillingsidendringer, tidslinje og timer. AVVIST: ingenting for personen er lagret, se feil. Feilene peker dit i personen de gjelder. MANUELL: personen er holdt igjen til arbeidsgiveren har tatt stilling i Min virksomhet eller SPK har behandlet den, se feil. For eksempel når SPK ikke har stillingen fra før (STILLING_UKJENT), eller når en ny stilling mangler gruppe og arbeidsgiveren har flere avtaler (GRUPPE_MANGLER). Avsender trenger ikke sende personen på nytt.",
+          "type": "string",
+          "enum": [
+            "OK",
+            "AVVIST",
+            "MANUELL"
+          ]
+        },
+        "koblinger": {
+          "title": "Koblinger",
+          "description": "Bare for OK. Nye stillingsid-er SPK har koblet til en stilling SPK har fra før, så stillingen beholder historikken sin. Er koblingen feil, sender avsender en stillingsidendring.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stillingskobling"
+          },
+          "minItems": 1
+        },
+        "feil": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/feil"
+          }
+        }
+      },
+      "required": [
+        "indeks",
+        "status"
+      ],
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "AVVIST",
+              "MANUELL"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "feil"
+        ],
+        "properties": {
+          "feil": {
+            "minItems": 1
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "feil": {
+      "title": "Feil",
+      "type": "object",
+      "properties": {
+        "kode": {
+          "title": "Feilkode",
+          "description": "Stabil kode avsender kan programmere mot: et kontrollbrudd fra listen, eller SKJEMA_ og nøkkelordet i JSON Schema for brudd på skjemaet, for eksempel SKJEMA_REQUIRED",
+          "type": "string",
+          "anyOf": [
+            {
+              "enum": [
+                "JSON_UGYLDIG",
+                "FORMAT_UGYLDIG",
+                "ORGANISASJONSNUMMER_UGYLDIG",
+                "FOEDSELSNUMMER_UGYLDIG",
+                "REGISTRERT_FRA_ETTER_TIL",
+                "PERIODE_FOER_GJELDER_FRA",
+                "PERIODE_TIL_FOER_FRA",
+                "PERIODE_LOEPENDE_IKKE_SIST",
+                "PERIODE_OVERLAPP",
+                "SLUTTAARSAK_UTEN_SLUTT",
+                "STILLINGSID_DUPLIKAT",
+                "STILLINGSID_GJENBRUKT",
+                "FOEDSELSNUMMER_DUPLIKAT",
+                "TIMER_DUPLIKAT",
+                "TIMER_MAANED_FREM_I_TID",
+                "STILLINGSIDENDRING_DUPLIKAT",
+                "STILLINGSIDENDRING_SAMME_ID",
+                "STILLINGSIDENDRING_SAMME_NYE_ID",
+                "STILLINGSIDENDRING_KJEDE",
+                "GRUPPE_UKJENT",
+                "GRUPPE_MANGLER",
+                "STILLING_UKJENT",
+                "KOBLING_TVETYDIG",
+                "STILLINGSIDENDRING_UKJENT_STILLING",
+                "TIMER_STILLING_UKJENT",
+                "INNSENDINGSID_GJENBRUKT",
+                "INNSENDING_FOR_STOR",
+                "BEHANDLING_FEILET"
+              ]
+            },
+            {
+              "pattern": "^SKJEMA_[A-Z0-9_]{1,43}$"
+            }
+          ]
+        },
+        "melding": {
+          "title": "Melding",
+          "description": "Forklaring for mennesker. Inneholder aldri fødselsnummer",
+          "type": "string",
+          "minLength": 1
+        },
+        "sti": {
+          "title": "Sti",
+          "description": "JSON Pointer (RFC 6901) til feltet i innsendingen feilen gjelder",
+          "type": "string",
+          "format": "json-pointer",
+          "examples": [
+            "/personer/3/tidslinje/perioder/0/fraOgMed"
+          ]
+        }
+      },
+      "required": [
+        "kode",
+        "melding"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

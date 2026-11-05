@@ -1,0 +1,11 @@
+{
+  "versjon" : "0.1.0-SNAPSHOT",
+  "innsendingsId" : "apotek-2",
+  "mottaksreferanse" : "9591a3c5-33ae-3e47-9bc6-aac63edd173b",
+  "mottakstidspunkt" : "2026-06-15T10:00:00Z",
+  "status" : "FERDIG",
+  "personer" : [ {
+    "indeks" : 0,
+    "status" : "OK"
+  } ]
+}

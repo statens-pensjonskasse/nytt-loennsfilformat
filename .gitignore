@@ -1,0 +1,23 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+
+# Editor
+*~
+*.swp
+\#*\#
+.#*
+
+# Bygg og avhengigheter
+target/
+build/
+node_modules/
+
+# Lokale filer
+.env
+.env.*
+*.pdf
