@@ -18,7 +18,7 @@ for eksempel `1_start.kvittering.json`. README-en i katalogen forklarer situasjo
 | [10_bytte_av_loennssystem](10_bytte_av_loennssystem) | Ny stillingsid når arbeidsgiveren bytter lønnssystem |
 | [11_feil_per_person](11_feil_per_person) | Feil hos enkeltpersoner, mens resten går gjennom |
 | [12_avvist_innsending](12_avvist_innsending) | Innsending som avvises fordi den ikke følger skjemaet |
- | [13_annullering](13_annullering) | Person registrert med feil fødselsnummer, annullert og sendt på det riktige |
+| [13_annullering](13_annullering) | Person registrert med feil fødselsnummer, fjernet med tom tidslinje og sendt på det riktige |
 
 Innsendingen i `12_avvist_innsending/1_sluttaarsak_uten_sluttdato.json` er med vilje ugyldig. Alle de andre følger
 skjemaet.

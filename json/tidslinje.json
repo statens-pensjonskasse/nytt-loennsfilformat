@@ -117,11 +117,6 @@
         "foedselsnummer": {
           "$ref": "felles.json#/$defs/foedselsnummer"
         },
-        "annuller": {
-          "title": "Annuller",
-          "description": "Personen skulle aldri vært rapportert hos arbeidsgiveren, for eksempel fordi fødselsnummeret var feil. SPK fjerner stillingene lønnssystemet har sendt for personen hos arbeidsgiveren, med tidslinjen og timene. Stillings-ID-ene kan ikke brukes igjen for personen. Sendes uten stillingsidendringer, tidslinje og timer. Har SPK ingen stillinger fra lønnssystemet for personen, avvises den (ANNULLERING_UKJENT_PERSON).",
-          "const": true
-        },
         "stillingsidendringer": {
           "title": "Endringer av stillings-ID",
           "description": "Stillinger som har fått ny stillingsid, for eksempel ved bytte av lønnssystem. Anvendes før tidslinjen og timene, så de kan bruke de nye ID-ene. Hver tidligereStillingsid høyst én gang. Utelates når ingen ID er endret.",
@@ -162,44 +157,13 @@
           "required": [
             "timer"
           ]
-        },
-        {
-          "required": [
-            "annuller"
-          ]
         }
       ],
-      "if": {
-        "required": [
-          "annuller"
-        ]
-      },
-      "then": {
-        "not": {
-          "anyOf": [
-            {
-              "required": [
-                "stillingsidendringer"
-              ]
-            },
-            {
-              "required": [
-                "tidslinje"
-              ]
-            },
-            {
-              "required": [
-                "timer"
-              ]
-            }
-          ]
-        }
-      },
       "additionalProperties": false
     },
     "tidslinje": {
       "title": "Tidslinje",
-      "description": "Tidslinjen for personen hos arbeidsgiveren fra og med gjelderFraOgMed. Alt SPK har fra og med denne datoen erstattes av periodene her. Tom periodeliste fjerner alt fra og med datoen. Utelates når tidslinjen ikke er endret.",
+      "description": "Tidslinjen for personen hos arbeidsgiveren fra og med gjelderFraOgMed. Alt SPK har fra og med denne datoen erstattes av periodene her. Tom periodeliste fjerner alt fra og med datoen. Er personen rapportert ved en feil, for eksempel med feil fødselsnummer, sendes tom periodeliste fra første dag SPK har for personen; timer som er sendt for personen, rettes til 0. Utelates når tidslinjen ikke er endret.",
       "type": "object",
       "properties": {
         "gjelderFraOgMed": {
