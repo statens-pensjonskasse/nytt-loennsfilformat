@@ -37,7 +37,7 @@
     },
     "personer": {
       "title": "Personer",
-      "description": "Personene innsendingen har endringer for, hver person høyst én gang, med alle endringene registrert til og med registrertTilOgMed som ikke er sendt før: stillingsidendringer, tidslinje og timer. Hver person behandles for seg og uavhengig av de andre. Personer med endringer som ikke er med her, sendes i en senere innsending. Tom når innsendingen ikke har endringer.",
+      "description": "Personene som har endringer som ikke er sendt før. For hver person er alle endringer registrert til og med registrertTilOgMed med. Hver person er med høyst en gang og behandles for seg. Tom når ingen har endringer.",
       "type": "array",
       "items": {
         "$ref": "#/$defs/person"
@@ -111,11 +111,16 @@
     },
     "person": {
       "title": "Person",
-      "description": "Alt innsendingen har for én person hos arbeidsgiveren. Personen er enheten SPK behandler: stillingsidendringene anvendes først, så tidslinjen og til slutt timene, og alt for personen lagres samlet. En feil hvor som helst i personen avviser hele personen. Minst én av stillingsidendringer, tidslinje og timer er med.",
+      "description": "Personen tidslinjen gjelder for",
       "type": "object",
       "properties": {
         "foedselsnummer": {
           "$ref": "felles.json#/$defs/foedselsnummer"
+        },
+        "annuller": {
+          "title": "Annuller",
+          "description": "Personen skulle aldri vært rapportert hos arbeidsgiveren, for eksempel fordi fødselsnummeret var feil. SPK fjerner stillingene lønnssystemet har sendt for personen hos arbeidsgiveren, med tidslinjen og timene. Stillings-ID-ene kan ikke brukes igjen for personen. Sendes uten stillingsidendringer, tidslinje og timer. Har SPK ingen stillinger fra lønnssystemet for personen, avvises den (ANNULLERING_UKJENT_PERSON).",
+          "const": true
         },
         "stillingsidendringer": {
           "title": "Endringer av stillings-ID",
@@ -157,8 +162,39 @@
           "required": [
             "timer"
           ]
+        },
+        {
+          "required": [
+            "annuller"
+          ]
         }
       ],
+      "if": {
+        "required": [
+          "annuller"
+        ]
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "stillingsidendringer"
+              ]
+            },
+            {
+              "required": [
+                "tidslinje"
+              ]
+            },
+            {
+              "required": [
+                "timer"
+              ]
+            }
+          ]
+        }
+      },
       "additionalProperties": false
     },
     "tidslinje": {
@@ -257,7 +293,7 @@
         },
         "pensjonsordning": {
           "title": "Pensjonsordning",
-          "description": "TP-nummeret til pensjonsordningen stillingen er meldt inn i, f.eks. 3010 for Statens pensjonskasse. Brukes til ruting i et felles mottak og til å validere stillingskoder og tillegg mot reglene for ordningen.",
+          "description": "TP-nummeret til pensjonsordningen stillingen er meldt inn i, f.eks. 3010 for Statens pensjonskasse.",
           "type": "string",
           "pattern": "^[0-9]{4}$",
           "examples": [
@@ -266,7 +302,7 @@
         },
         "gruppe": {
           "title": "Gruppe",
-          "description": "Arbeidsgivers egen grupperingsnøkkel for å knytte stillingen til riktig avtale, f.eks. avdelings-ID eller avdelingsnavn. Trengs bare for arbeidsgivere med flere avtaler; arbeidsgiver registrerer i Min virksomhet hvilken gruppe hver avtale gjelder for. Erstatter standardavtalen og smittelogikken i dagens mottak: SPK gjetter ikke på avtale. Med gruppe knyttes stillingen til avtalen gruppen er registrert på, og en ny gruppe fra en dato flytter stillingen til den avtalen fra den datoen. En gruppe som ikke er registrert, avviser personen (GRUPPE_UKJENT). Uten gruppe beholder en stilling SPK kjenner, avtalen den har; har personen en ny stilling, holdes hele tidslinjen igjen (MANUELL) til arbeidsgiveren har valgt eller bekreftet avtalen i Min virksomhet (GRUPPE_MANGLER). Hos arbeidsgivere med én avtale brukes ikke gruppe. Ikke tom, uten innledende eller avsluttende mellomrom og uten linjeskift.",
+          "description": "Arbeidsgivers egen grupperingsnøkkel for å knytte stillingen til riktig avtale, f.eks. avdelings-ID eller avdelingsnavn.",
           "type": "string",
           "minLength": 1,
           "maxLength": 100,

@@ -9,7 +9,7 @@
       "description": "Versjonen av formatet innsendingen eller kvitteringen følger, Semantisk versjonering (https://semver.org). Så lenge formatet er en POC, er versjonen 0.x.y-SNAPSHOT og kan endres når som helst uten bakoverkompatibilitet; tidligere versjoner fjernes når en ny kommer. Fra 1.0.0 gjelder disse presiseringene: innenfor samme majorversjon skal filer som validerte tidligere, fortsatt validere; nye enum-verdier og nye valgfrie felter kan legges til i en minorversjon, men eksisterende verdier fjernes aldri uten ny majorversjon.",
       "type": "string",
       "enum": [
-        "0.1.0-SNAPSHOT"
+        "3.0.0-SNAPSHOT"
       ]
     },
     "referanse": {
