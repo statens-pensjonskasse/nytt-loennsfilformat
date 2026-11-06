@@ -6,6 +6,42 @@ kilden til sannhet.
 
 Formatet er et utkast og kan endres uten varsel. Versjonen er `0.1.0-SNAPSHOT`.
 
+## Forslag og tilbakemeldinger
+
+Skjemaene er et forslag. Vi vil gjerne høre hva dere mener om det som er nytt sammenlignet med
+kravspesifikasjonen for v2.7.
+
+**Tidslinjer i stedet for meldinger**
+
+- Lønnssystemet sender hele tidslinjen for personen fra datoen endringen gjelder fra (`gjelderFraOgMed`).
+  Status- og endringsmeldingene faller bort, og SPK finner selv ut hva som er endret.
+- Slutt er siste dag i en periode, med sluttårsak. Et opphold mellom to perioder betyr at personen ikke var
+  ansatt.
+
+**Stillingene**
+
+- Hver stilling sendes for seg med en stabil `stillingsid` fra lønnssystemet. Lønnssystemet slår ikke
+  sammen stillinger med lik aldersgrense og justerer ikke ned til 100 %.
+- Ved bytte av lønnssystem sender det nye systemet en `stillingsidendring`. Da beholder stillingen
+  historikken sin hos SPK.
+- `gruppe` knytter stillingen til riktig avtale hos arbeidsgivere med flere avtaler. Da slipper SPK å gjette
+  på avtalen.
+- `pensjonsordning` oppgir TP-nummeret, så et felles mottak kan ta imot for flere ordninger.
+- `ansettelsesform` sier om personen er fast eller midlertidig ansatt.
+
+**Timer og permisjon**
+
+- Timelønnede og ekstratimer meldes som faktiske timer per stilling og måned. SPK regner ut
+  stillingsstørrelsen, og arbeidsgiveren slipper å regne gjennomsnitt.
+- Delvis permisjon oppgis med hvor stor del av stillingen som er uten lønn.
+
+**Svaret fra SPK**
+
+- SPK svarer med en kvittering per person. En feil hos en person stopper ikke de andre.
+- Feilene har faste koder og peker på feltet de gjelder, så lønnssystemet kan vise dem til brukeren.
+- `innsendingsId` gjør det trygt å sende på nytt etter tidsavbrudd. `registrertFra` og `registrertTilOgMed`
+  viser hvilket tidsrom innsendingen dekker, så ingenting faller mellom to innsendinger.
+
 ## Skjemaene
 
 | Fil | Innhold |
