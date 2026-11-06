@@ -18,6 +18,7 @@ for eksempel `1_start.kvittering.json`. README-en i katalogen forklarer situasjo
 | [10_bytte_av_loennssystem](10_bytte_av_loennssystem) | Ny stillingsid når arbeidsgiveren bytter lønnssystem |
 | [11_feil_per_person](11_feil_per_person) | Feil hos enkeltpersoner, mens resten går gjennom |
 | [12_avvist_innsending](12_avvist_innsending) | Innsending som avvises fordi den ikke følger skjemaet |
+ | [13_annullering](13_annullering) | Person registrert med feil fødselsnummer, annullert og sendt på det riktige |
 
 Innsendingen i `12_avvist_innsending/1_sluttaarsak_uten_sluttdato.json` er med vilje ugyldig. Alle de andre følger
 skjemaet.
@@ -41,6 +42,8 @@ stemmer. Alle Tenor-personene og -virksomhetene vi bruker, står i [`testdata/te
 | 08818795980 | Rik Nær Gullmynt | 1987 (død i Folkeregisteret) | 06 (død) |
 | 22829097072 | Akseptabel Lyselilla Breiflabb | 1990 | 07, 09 |
 | 03816098555 | Unormal Stasjon | 1960 | 08 |
+| 01818599745 | Tilfeldig Bever | 1985 | 13 (feil fødselsnummer) |
+| 01898799898 | Bevisst Robåt | 1987 | 13 |
 
 `22860299709` i eksempel 11 er fødselsnummeret fra eksempel 01 med feil kontrollsiffer.
 

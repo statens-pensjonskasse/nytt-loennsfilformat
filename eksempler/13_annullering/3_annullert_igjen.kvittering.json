@@ -1,0 +1,16 @@
+{
+  "versjon" : "0.1.0-SNAPSHOT",
+  "innsendingsId" : "annullering-3",
+  "mottaksreferanse" : "c2af7560-a25f-3730-b383-53f4e25fb7d5",
+  "mottakstidspunkt" : "2026-06-25T10:00:00Z",
+  "status" : "FERDIG",
+  "personer" : [ {
+    "indeks" : 0,
+    "status" : "AVVIST",
+    "feil" : [ {
+      "kode" : "ANNULLERING_UKJENT_PERSON",
+      "melding" : "SPK har ingen stillinger fra lønnssystemet for personen hos arbeidsgiveren",
+      "sti" : "/personer/0/annuller"
+    } ]
+  } ]
+}
