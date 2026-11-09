@@ -4,17 +4,26 @@
   "mottaksreferanse" : "159ef979-6eb5-362f-a504-5b1ec1b0b75d",
   "mottakstidspunkt" : "2026-01-12T10:00:00Z",
   "status" : "FERDIG",
+  "feil" : [ ],
   "personer" : [ {
     "indeks" : 0,
-    "status" : "OK"
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
   }, {
     "indeks" : 1,
-    "status" : "OK"
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
   }, {
     "indeks" : 2,
-    "status" : "OK"
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
   }, {
     "indeks" : 3,
-    "status" : "OK"
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
   } ]
 }

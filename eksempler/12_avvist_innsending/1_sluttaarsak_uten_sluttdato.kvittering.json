@@ -8,5 +8,6 @@
     "kode" : "SKJEMA_DEPENDENT_REQUIRED",
     "melding" : "Feltet krever et annet felt som mangler",
     "sti" : "/personer/1/tidslinje/perioder/0"
-  } ]
+  } ],
+  "personer" : [ ]
 }

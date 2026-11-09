@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://spk.no/schemas/spk-medlemsdata/json/kvittering.json",
   "title": "Kvittering for innsending av tidslinjer",
-  "description": "SPKs svar på en innsending. MOTTATT og BEHANDLES er foreløpige, og avsender henter kvitteringen på nytt etter Retry-After. FERDIG og AVVIST er endelige. Personer identifiseres med plassen sin i innsendingen.",
+  "description": "SPKs svar på en innsending. MOTTATT og BEHANDLES er foreløpige, og avsender henter kvitteringen på nytt etter Retry-After. FERDIG og AVVIST er endelige. Personer identifiseres med plassen sin i innsendingen. Kvitteringen har alltid de samme feltene. Lister uten innhold er tomme, og verdier SPK ikke har, er null.",
   "$comment": "Status: utkast",
   "type": "object",
   "properties": {
@@ -10,14 +10,24 @@
       "$ref": "felles.json#/$defs/versjon"
     },
     "innsendingsId": {
-      "$ref": "felles.json#/$defs/referanse",
+      "anyOf": [
+        {
+          "$ref": "felles.json#/$defs/referanse"
+        },
+        {
+          "type": "null"
+        }
+      ],
       "title": "Innsendings-ID",
-      "description": "innsendingsId fra innsendingen kvitteringen gjelder. Utelates når innsendingen er avvist ved mottak før innsendingsId er lest."
+      "description": "innsendingsId fra innsendingen kvitteringen gjelder. null når innsendingen er avvist ved mottak før innsendingsId er lest."
     },
     "mottaksreferanse": {
       "title": "Mottaksreferanse",
-      "description": "SPKs referanse til innsendingen, laget ved mottak. Utelates når innsendingen er avvist ved mottak.",
-      "type": "string",
+      "description": "SPKs referanse til innsendingen, laget ved mottak. null når innsendingen er avvist ved mottak.",
+      "type": [
+        "string",
+        "null"
+      ],
       "format": "uuid"
     },
     "mottakstidspunkt": {
@@ -37,7 +47,7 @@
     },
     "feil": {
       "title": "Feil",
-      "description": "Feil som gjelder hele innsendingen",
+      "description": "Feil som gjelder hele innsendingen. Har minst en feil når status er AVVIST, ellers tom.",
       "type": "array",
       "items": {
         "$ref": "#/$defs/feil"
@@ -45,7 +55,7 @@
     },
     "personer": {
       "title": "Resultat per person",
-      "description": "Oppgis når status er FERDIG",
+      "description": "Resultat per person når status er FERDIG, ellers tom.",
       "type": "array",
       "items": {
         "$ref": "#/$defs/personresultat"
@@ -54,60 +64,12 @@
   },
   "required": [
     "versjon",
+    "innsendingsId",
+    "mottaksreferanse",
     "mottakstidspunkt",
-    "status"
-  ],
-  "allOf": [
-    {
-      "if": {
-        "properties": {
-          "status": {
-            "not": {
-              "const": "AVVIST"
-            }
-          }
-        }
-      },
-      "then": {
-        "required": [
-          "innsendingsId",
-          "mottaksreferanse"
-        ]
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "status": {
-            "const": "FERDIG"
-          }
-        }
-      },
-      "then": {
-        "required": [
-          "personer"
-        ]
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "status": {
-            "const": "AVVIST"
-          }
-        }
-      },
-      "then": {
-        "required": [
-          "feil"
-        ],
-        "properties": {
-          "feil": {
-            "minItems": 1
-          }
-        }
-      }
-    }
+    "status",
+    "feil",
+    "personer"
   ],
   "additionalProperties": false,
   "$defs": {
@@ -156,14 +118,15 @@
         },
         "koblinger": {
           "title": "Koblinger",
-          "description": "Bare for OK. Viser hver ny stillingsid som SPK har koblet til en stilling SPK har fra før. Er koblingen feil, sender avsender en stillingsidendring med spkStillingsid som tidligereStillingsid.",
+          "description": "Nye stillingsid som SPK har koblet til en stilling SPK har fra før. Er koblingen feil, sender avsender en stillingsidendring med spkStillingsid som tidligereStillingsid. Tom når det ikke er noen koblinger, og alltid tom når status ikke er OK.",
           "type": "array",
           "items": {
             "$ref": "#/$defs/stillingskobling"
-          },
-          "minItems": 1
+          }
         },
         "feil": {
+          "title": "Feil",
+          "description": "Feil for personen. Har minst en feil når status er AVVIST eller MANUELL, og er tom når status er OK.",
           "type": "array",
           "items": {
             "$ref": "#/$defs/feil"
@@ -172,28 +135,10 @@
       },
       "required": [
         "indeks",
-        "status"
+        "status",
+        "koblinger",
+        "feil"
       ],
-      "if": {
-        "properties": {
-          "status": {
-            "enum": [
-              "AVVIST",
-              "MANUELL"
-            ]
-          }
-        }
-      },
-      "then": {
-        "required": [
-          "feil"
-        ],
-        "properties": {
-          "feil": {
-            "minItems": 1
-          }
-        }
-      },
       "additionalProperties": false
     },
     "feil": {
@@ -243,8 +188,11 @@
         },
         "sti": {
           "title": "Sti",
-          "description": "JSON Pointer (RFC 6901) til feltet i innsendingen feilen gjelder",
-          "type": "string",
+          "description": "JSON Pointer (RFC 6901) til feltet i innsendingen feilen gjelder. null når feilen ikke gjelder et bestemt felt, for eksempel ved JSON_UGYLDIG.",
+          "type": [
+            "string",
+            "null"
+          ],
           "format": "json-pointer",
           "examples": [
             "/personer/3/tidslinje/perioder/0/fraOgMed"
@@ -253,7 +201,8 @@
       },
       "required": [
         "kode",
-        "melding"
+        "melding",
+        "sti"
       ],
       "additionalProperties": false
     }

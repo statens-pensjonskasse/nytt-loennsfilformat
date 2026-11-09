@@ -4,8 +4,11 @@
   "mottaksreferanse" : "0ded816e-f4be-33af-9d6b-74cee1d9bc72",
   "mottakstidspunkt" : "2026-05-12T10:00:00Z",
   "status" : "FERDIG",
+  "feil" : [ ],
   "personer" : [ {
     "indeks" : 0,
-    "status" : "OK"
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
   } ]
 }

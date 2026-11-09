@@ -4,8 +4,11 @@
   "mottaksreferanse" : "dfd31c88-dbd1-3f1d-9781-120b97733730",
   "mottakstidspunkt" : "2026-03-10T10:00:00Z",
   "status" : "FERDIG",
+  "feil" : [ ],
   "personer" : [ {
     "indeks" : 0,
-    "status" : "OK"
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
   } ]
 }
