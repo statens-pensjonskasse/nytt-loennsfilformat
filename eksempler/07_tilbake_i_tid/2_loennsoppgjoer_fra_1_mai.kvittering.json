@@ -1,0 +1,14 @@
+{
+  "versjon" : "3.0.0-SNAPSHOT",
+  "innsendingsId" : "tilbake-i-tid-2",
+  "mottaksreferanse" : "ff0f1506-ded4-37ca-98b9-5c5149178e01",
+  "mottakstidspunkt" : "2026-07-08T10:00:00Z",
+  "status" : "FERDIG",
+  "feil" : [ ],
+  "personer" : [ {
+    "indeks" : 0,
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
+  } ]
+}

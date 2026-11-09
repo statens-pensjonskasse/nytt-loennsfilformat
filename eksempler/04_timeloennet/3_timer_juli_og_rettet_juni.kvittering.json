@@ -1,0 +1,14 @@
+{
+  "versjon" : "3.0.0-SNAPSHOT",
+  "innsendingsId" : "timeloennet-3",
+  "mottaksreferanse" : "9f834f22-108b-3933-b993-ea5543fd1a36",
+  "mottakstidspunkt" : "2026-08-04T10:00:00Z",
+  "status" : "FERDIG",
+  "feil" : [ ],
+  "personer" : [ {
+    "indeks" : 0,
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
+  } ]
+}

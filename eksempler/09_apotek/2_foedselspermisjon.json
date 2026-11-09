@@ -1,0 +1,65 @@
+{
+  "versjon": "3.0.0-SNAPSHOT",
+  "innsendingsId": "apotek-2",
+  "registrertFra": "2026-02-06T10:00:00Z",
+  "registrertTilOgMed": "2026-06-15T10:00:00Z",
+  "avsender": {
+    "loennssystemkode": "LS1",
+    "systemnavn": "Eksempel Lønn",
+    "systemversjon": "1.0.0"
+  },
+  "arbeidsgiver": {
+    "organisasjonsnummer": "312705230"
+  },
+  "personer": [
+    {
+      "foedselsnummer": "22829097072",
+      "tidslinje": {
+        "gjelderFraOgMed": "2026-07-01",
+        "perioder": [
+          {
+            "fraOgMed": "2026-07-01",
+            "tilOgMed": "2027-03-31",
+            "stillingsforhold": [
+              {
+                "stillingsid": "POA1",
+                "pensjonsordning": "3010",
+                "stilling": {
+                  "stillingskode": "7001",
+                  "stillingsstoerrelseBasispunkter": 10000,
+                  "aldersgrense": 72
+                },
+                "arbeidsinntekt": {
+                  "regulativ": "105",
+                  "hovedloennOere": 64000000
+                },
+                "permisjon": {
+                  "type": "HEL",
+                  "permisjonsavtale": "A.04"
+                }
+              }
+            ]
+          },
+          {
+            "fraOgMed": "2027-04-01",
+            "stillingsforhold": [
+              {
+                "stillingsid": "POA1",
+                "pensjonsordning": "3010",
+                "stilling": {
+                  "stillingskode": "7001",
+                  "stillingsstoerrelseBasispunkter": 10000,
+                  "aldersgrense": 72
+                },
+                "arbeidsinntekt": {
+                  "regulativ": "105",
+                  "hovedloennOere": 64000000
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

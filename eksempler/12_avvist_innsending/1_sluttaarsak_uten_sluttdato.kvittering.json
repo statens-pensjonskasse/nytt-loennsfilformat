@@ -1,0 +1,13 @@
+{
+  "versjon" : "3.0.0-SNAPSHOT",
+  "innsendingsId" : "avvist-innsending-1",
+  "mottaksreferanse" : "65ffde54-d864-3c15-b483-5f1421a8efce",
+  "mottakstidspunkt" : "2026-09-10T10:00:00Z",
+  "status" : "AVVIST",
+  "feil" : [ {
+    "kode" : "SKJEMA_DEPENDENT_REQUIRED",
+    "melding" : "Feltet krever et annet felt som mangler",
+    "sti" : "/personer/1/tidslinje/perioder/0"
+  } ],
+  "personer" : [ ]
+}

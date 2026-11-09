@@ -1,0 +1,14 @@
+{
+  "versjon" : "3.0.0-SNAPSHOT",
+  "innsendingsId" : "ny-ansatt-1",
+  "mottaksreferanse" : "3434fedc-6030-3de2-a07f-2b7ace95c8df",
+  "mottakstidspunkt" : "2026-06-12T10:00:00Z",
+  "status" : "FERDIG",
+  "feil" : [ ],
+  "personer" : [ {
+    "indeks" : 0,
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
+  } ]
+}

@@ -1,0 +1,31 @@
+[
+  {
+    "organisasjonsnummer": "313683257",
+    "navn": "Utgått Autonom Piggsvin",
+    "organisasjonsform": "ORGL",
+    "naeringskode": "84.220",
+    "naeringsbeskrivelse": "Forsvarsaktiviteter"
+  },
+  {
+    "organisasjonsnummer": "313586138",
+    "navn": "Blomstrete Muskuløs Piggsvin",
+    "organisasjonsform": "ORGL",
+    "naeringskode": "84.110",
+    "naeringsbeskrivelse": "Generell offentlig administrasjon"
+  },
+  {
+    "organisasjonsnummer": "312705230",
+    "navn": "Samarbeidsvillig Pratsom Kaiman",
+    "organisasjonsform": "SÆR",
+    "naeringskode": "47.730",
+    "naeringsbeskrivelse": "Detaljhandel med apotekvarer"
+  },
+  {
+    "organisasjonsnummer": "315148634",
+    "navn": "Vaklende Spesifikk Fjellrev",
+    "organisasjonsform": "BEDR",
+    "naeringskode": "47.730",
+    "naeringsbeskrivelse": "Detaljhandel med apotekvarer",
+    "hovedenhet": "312705230"
+  }
+]

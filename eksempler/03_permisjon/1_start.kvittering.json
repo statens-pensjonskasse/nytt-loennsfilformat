@@ -1,0 +1,14 @@
+{
+  "versjon" : "3.0.0-SNAPSHOT",
+  "innsendingsId" : "permisjon-1",
+  "mottaksreferanse" : "c6a16914-b2c7-319b-82c2-3eb7eff6430f",
+  "mottakstidspunkt" : "2026-03-10T10:00:00Z",
+  "status" : "FERDIG",
+  "feil" : [ ],
+  "personer" : [ {
+    "indeks" : 0,
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
+  } ]
+}

@@ -1,0 +1,14 @@
+{
+  "versjon" : "3.0.0-SNAPSHOT",
+  "innsendingsId" : "annullering-1",
+  "mottaksreferanse" : "604f2324-8bdd-31d2-aa26-8f5af255ab47",
+  "mottakstidspunkt" : "2026-06-12T10:00:00Z",
+  "status" : "FERDIG",
+  "feil" : [ ],
+  "personer" : [ {
+    "indeks" : 0,
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
+  } ]
+}

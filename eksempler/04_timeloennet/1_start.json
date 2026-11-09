@@ -1,0 +1,44 @@
+{
+  "versjon": "3.0.0-SNAPSHOT",
+  "innsendingsId": "timeloennet-1",
+  "registrertFra": "2026-05-31T22:00:00Z",
+  "registrertTilOgMed": "2026-06-05T10:00:00Z",
+  "avsender": {
+    "loennssystemkode": "LS1",
+    "systemnavn": "Eksempel Lønn",
+    "systemversjon": "1.0.0"
+  },
+  "arbeidsgiver": {
+    "organisasjonsnummer": "313683257"
+  },
+  "personer": [
+    {
+      "foedselsnummer": "08840897533",
+      "tidslinje": {
+        "gjelderFraOgMed": "2026-06-01",
+        "perioder": [
+          {
+            "fraOgMed": "2026-06-01",
+            "stillingsforhold": [
+              {
+                "stillingsid": "4001",
+                "pensjonsordning": "3010",
+                "stilling": {
+                  "stillingskode": "1065",
+                  "loennsform": "TIMELOENNET",
+                  "timerPerUkeFullStillingHundredeler": 3750,
+                  "arbeidstidsordning": "ikkeSkift",
+                  "aldersgrense": 72,
+                  "ansettelsesform": "MIDLERTIDIG"
+                },
+                "arbeidsinntekt": {
+                  "regulativ": "073"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

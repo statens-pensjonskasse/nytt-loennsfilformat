@@ -1,0 +1,29 @@
+{
+  "versjon" : "3.0.0-SNAPSHOT",
+  "innsendingsId" : "sluttaarsaker-2",
+  "mottaksreferanse" : "a7b6c3a2-c757-3dad-88c1-cb4734916c36",
+  "mottakstidspunkt" : "2026-09-04T10:00:00Z",
+  "status" : "FERDIG",
+  "feil" : [ ],
+  "personer" : [ {
+    "indeks" : 0,
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
+  }, {
+    "indeks" : 1,
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
+  }, {
+    "indeks" : 2,
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
+  }, {
+    "indeks" : 3,
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
+  } ]
+}

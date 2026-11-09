@@ -1,0 +1,42 @@
+{
+  "versjon": "3.0.0-SNAPSHOT",
+  "innsendingsId": "flere-stillinger-2",
+  "registrertFra": "2026-04-10T10:00:00Z",
+  "registrertTilOgMed": "2026-07-15T10:00:00Z",
+  "avsender": {
+    "loennssystemkode": "LS1",
+    "systemnavn": "Eksempel Lønn",
+    "systemversjon": "1.0.0"
+  },
+  "arbeidsgiver": {
+    "organisasjonsnummer": "313683257"
+  },
+  "personer": [
+    {
+      "foedselsnummer": "24897297651",
+      "tidslinje": {
+        "gjelderFraOgMed": "2026-08-01",
+        "perioder": [
+          {
+            "fraOgMed": "2026-08-01",
+            "stillingsforhold": [
+              {
+                "stillingsid": "2001",
+                "pensjonsordning": "3010",
+                "stilling": {
+                  "stillingskode": "1408",
+                  "stillingsstoerrelseBasispunkter": 6000,
+                  "aldersgrense": 72
+                },
+                "arbeidsinntekt": {
+                  "regulativ": "073",
+                  "hovedloennOere": 37200000
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

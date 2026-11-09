@@ -1,0 +1,32 @@
+{
+  "versjon" : "3.0.0-SNAPSHOT",
+  "innsendingsId" : "feil-per-person-1",
+  "mottaksreferanse" : "a8c3485d-ecc9-305a-a184-63b9f473eb3a",
+  "mottakstidspunkt" : "2026-09-10T10:00:00Z",
+  "status" : "FERDIG",
+  "feil" : [ ],
+  "personer" : [ {
+    "indeks" : 0,
+    "status" : "OK",
+    "koblinger" : [ ],
+    "feil" : [ ]
+  }, {
+    "indeks" : 1,
+    "status" : "AVVIST",
+    "koblinger" : [ ],
+    "feil" : [ {
+      "kode" : "FOEDSELSNUMMER_UGYLDIG",
+      "melding" : "Fødselsnummeret har feil kontrollsiffer",
+      "sti" : "/personer/1/foedselsnummer"
+    } ]
+  }, {
+    "indeks" : 2,
+    "status" : "AVVIST",
+    "koblinger" : [ ],
+    "feil" : [ {
+      "kode" : "PERIODE_OVERLAPP",
+      "melding" : "Periodene overlapper",
+      "sti" : "/personer/2/tidslinje/perioder/1/fraOgMed"
+    } ]
+  } ]
+}
