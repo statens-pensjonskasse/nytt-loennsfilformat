@@ -33,6 +33,9 @@ kravspesifikasjonen for v2.7.
 
 - Timelønnede og ekstratimer meldes som faktiske timer per stilling og måned. SPK regner ut
   stillingsstørrelsen, og arbeidsgiveren slipper å regne gjennomsnitt.
+- Full stilling oppgis som timer per uke og arbeidstidsordning, på samme måte som i a-meldingen. Timene
+  gjelder måneden de ble arbeidet, og en rettelse sender hele timetallet for måneden på nytt. A-meldingen
+  bruker utbetalingsmåneden og sender rettelser som etterbetaling.
 - Delvis permisjon oppgis med hvor stor del av stillingen som er uten lønn.
 
 **Svaret fra SPK**
@@ -64,7 +67,7 @@ kvittering, og gyldige verdier står i `json/felles.json`.
 
 Så lenge versjonen er `0.x.y-SNAPSHOT`, kan formatet endres uten at det er bakoverkompatibelt. Fra versjon 1.0.0 skal
 en fil som validerte før, fortsatt validere innenfor samme majorversjon. Eksisterende verdier fjernes bare i en ny
-majorversjon. Feilkodene i kvitteringen er en åpen liste: avsender må tåle koder den ikke kjenner.
+majorversjon. Feilkodene i kvitteringen er en åpen liste, og avsender må tåle koder den ikke kjenner.
 
 ## Henvendelser
 

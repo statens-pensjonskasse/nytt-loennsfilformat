@@ -2,7 +2,7 @@
 
 Hvert eksempel er en katalog med innsendinger som sendes i rekkefølge for samme arbeidsgiver, `1_start.json`,
 `2_….json` og så videre. Ved siden av hver innsending ligger kvitteringen SPK svarer med når den er ferdig behandlet,
-for eksempel `1_start.kvittering.json`. README-en i katalogen forklarer situasjonen og hvert steg.
+for eksempel `1_start.kvittering.json`. README i katalogen forklarer situasjonen og hvert steg.
 
 | Eksempel | Viser |
 |---|---|

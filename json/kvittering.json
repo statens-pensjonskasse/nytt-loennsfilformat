@@ -12,7 +12,7 @@
     "innsendingsId": {
       "$ref": "felles.json#/$defs/referanse",
       "title": "Innsendings-ID",
-      "description": "innsendingsId fra innsendingen kvitteringen gjelder. Utelates når innsendingen er avvist ved mottak før ID-en er lest."
+      "description": "innsendingsId fra innsendingen kvitteringen gjelder. Utelates når innsendingen er avvist ved mottak før innsendingsId er lest."
     },
     "mottaksreferanse": {
       "title": "Mottaksreferanse",
@@ -26,7 +26,7 @@
     },
     "status": {
       "title": "Status",
-      "description": "MOTTATT: ikke behandlet. BEHANDLES: under behandling. FERDIG: behandlet, se personer. AVVIST: hele innsendingen er avvist, se feil.",
+      "description": "MOTTATT betyr at innsendingen ikke er behandlet ennå, og BEHANDLES at den er under behandling. FERDIG betyr at den er behandlet og at resultatet står i personer. AVVIST betyr at hele innsendingen er avvist, og årsaken står i feil.",
       "type": "string",
       "enum": [
         "MOTTATT",
@@ -117,13 +117,13 @@
       "properties": {
         "stillingsid": {
           "title": "Stillingsid",
-          "description": "Den nye stillingsid-en fra avsender",
+          "description": "Ny stillingsid fra avsender",
           "type": "string",
           "minLength": 1
         },
         "spkStillingsid": {
           "title": "SPKs stillingsid",
-          "description": "ID-en SPK har for stillingen fra før.",
+          "description": "Stillingsid SPK har for stillingen fra før.",
           "type": "string",
           "minLength": 1
         }
@@ -146,7 +146,7 @@
         },
         "status": {
           "title": "Status",
-          "description": "Status for resultatet, MANUELL betyr manuell behandling opprettet",
+          "description": "Status for resultatet. MANUELL betyr at SPK har opprettet en sak til manuell behandling.",
           "type": "string",
           "enum": [
             "OK",
@@ -156,7 +156,7 @@
         },
         "koblinger": {
           "title": "Koblinger",
-          "description": "Bare for OK. Nye stillingsid-er SPK har koblet til en stilling SPK har fra før. Er koblingen feil, sender avsender en stillingsidendring med spkStillingsid som tidligereStillingsid.",
+          "description": "Bare for OK. Viser hver ny stillingsid som SPK har koblet til en stilling SPK har fra før. Er koblingen feil, sender avsender en stillingsidendring med spkStillingsid som tidligereStillingsid.",
           "type": "array",
           "items": {
             "$ref": "#/$defs/stillingskobling"
@@ -202,7 +202,7 @@
       "properties": {
         "kode": {
           "title": "Feilkode",
-          "description": "Stabil kode avsender kan programmere mot: et kontrollbrudd, eller SKJEMA_ og nøkkelordet i JSON Schema for brudd på skjemaet. Kjente kontrollbrudd står i examples. Nye koder kan komme i en minorversjon, og avsender må tåle koder den ikke kjenner.",
+          "description": "Stabil kode avsender kan programmere mot. Koden er enten et kontrollbrudd, eller SKJEMA_ fulgt av nøkkelordet i JSON Schema når skjemaet er brutt. Kjente kontrollbrudd står i examples. Nye koder kan komme i en minorversjon, og avsender må tåle koder den ikke kjenner.",
           "type": "string",
           "pattern": "^[A-Z][A-Z0-9_]{0,49}$",
           "examples": [

@@ -29,7 +29,8 @@
                 "stilling": {
                   "stillingskode": "1065",
                   "loennsform": "TIMELOENNET",
-                  "aarstimetall": 1950,
+                  "timerPerUkeFullStillingHundredeler": 3750,
+                  "arbeidstidsordning": "ikkeSkift",
                   "aldersgrense": 72,
                   "ansettelsesform": "MIDLERTIDIG"
                 },
