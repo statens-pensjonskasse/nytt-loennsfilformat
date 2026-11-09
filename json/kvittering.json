@@ -146,7 +146,7 @@
         },
         "status": {
           "title": "Status",
-          "description": "OK: alt for personen er lagret: stillingsidendringer, tidslinje og timer. AVVIST: ingenting for personen er lagret, se feil. Feilene peker dit i personen de gjelder. MANUELL: personen er holdt igjen til arbeidsgiveren har tatt stilling i Min virksomhet eller SPK har behandlet den, se feil. For eksempel når SPK ikke har stillingen fra før (STILLING_UKJENT), eller når en ny stilling mangler gruppe og arbeidsgiveren har flere avtaler (GRUPPE_MANGLER). Avsender trenger ikke sende personen på nytt.",
+          "description": "Status for resultatet, MANUELL betyr manuell behandlig opprettet",
           "type": "string",
           "enum": [
             "OK",
@@ -202,7 +202,7 @@
       "properties": {
         "kode": {
           "title": "Feilkode",
-          "description": "Stabil kode avsender kan programmere mot: et kontrollbrudd fra listen, eller SKJEMA_ og nøkkelordet i JSON Schema for brudd på skjemaet, for eksempel SKJEMA_REQUIRED",
+          "description": "Stabil kode avsender kan programmere mot: et kontrollbrudd fra listen, eller SKJEMA_ og nøkkelordet i JSON Schema for brudd på skjemaet, for eksempel SKJEMA_REQUIRED. Nye koder kan komme i en minorversjon. Avsender må tåle koder den ikke kjenner, og vise melding.",
           "type": "string",
           "anyOf": [
             {
@@ -238,7 +238,7 @@
               ]
             },
             {
-              "pattern": "^SKJEMA_[A-Z0-9_]{1,43}$"
+              "pattern": "^[A-Z][A-Z0-9_]{0,49}$"
             }
           ]
         },

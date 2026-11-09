@@ -9,11 +9,8 @@ navn.
 | [`personer.json`](personer.json) | Personer fra Folkeregisteret i Tenor med fødselsnummer, navn, fødselsdato, kjønn og personstatus |
 | [`virksomheter.json`](virksomheter.json) | Virksomheter fra Enhetsregisteret i Tenor med organisasjonsnummer, navn, organisasjonsform og næringskode |
 
-Fødselsnumrene har måneden lagt til 80, så de kan aldri tilhøre en ekte person. Kontrollsifrene stemmer. Listen har
-også en person med D-nummer (`71888500566`), en død person (`08818795980`) og en utflyttet person (`26813547111`).
+Fødselsnumrene har måneden lagt til 80, så de kan aldri tilhøre en ekte person. Kontrollsifrene stemmer.
 Navnene er syntetiske navn fra Tenor, skrevet med stor forbokstav.
-
-Virksomhetene er to organisasjonsledd i staten og et apotek med underenheten sin. Apoteket brukes for regulativ 105.
 
 ## Slik hentes flere
 

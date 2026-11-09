@@ -64,7 +64,8 @@ kvittering, og gyldige verdier står i `json/felles.json`.
 
 Så lenge versjonen er `0.x.y-SNAPSHOT`, kan formatet endres uten at det er bakoverkompatibelt. Fra versjon 1.0.0 skal
 en fil som validerte før, fortsatt validere innenfor samme majorversjon. Nye valgfrie felter og nye enum-verdier kan
-komme i en minorversjon. Eksisterende verdier fjernes bare i en ny majorversjon.
+komme i en minorversjon. Eksisterende verdier fjernes bare i en ny majorversjon. Feilkodene i kvitteringen er en
+åpen liste: avsender må tåle koder den ikke kjenner.
 
 ## Henvendelser
 
