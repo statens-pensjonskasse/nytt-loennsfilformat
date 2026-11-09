@@ -14,11 +14,6 @@
       "title": "Innsendings-ID",
       "description": "Avsenders unike ID for innsendingen per innsender, lønnssystem og arbeidsgiver, og idempotensnøkkel. Samme ID med samme innhold gir kvitteringen fra første gang, og samme ID med annet innhold avvises med INNSENDINGSID_GJENBRUKT. En innsendingsId er brukt når innsendingen er tatt imot, også om den avvises i behandlingen. Avvises innsendingen ved mottak, kan samme innsendingsId brukes igjen."
     },
-    "innsendingstidspunkt": {
-      "$ref": "felles.json#/$defs/tidspunkt",
-      "title": "Innsendingstidspunkt",
-      "description": "Når innsendingen ble generert. Brukes til sporing og feilsøking"
-    },
     "registrertFra": {
       "$ref": "felles.json#/$defs/tidspunkt",
       "title": "Registrert fra",
@@ -27,7 +22,7 @@
     "registrertTilOgMed": {
       "$ref": "felles.json#/$defs/tidspunkt",
       "title": "Registrert til og med",
-      "description": "Slutten av tidsrommet innsendingen dekker. Kan være tidligere enn innsendingstidspunkt."
+      "description": "Slutten av tidsrommet innsendingen dekker. Kan være tidligere enn mottakstidspunkt i kvitteringen."
     },
     "avsender": {
       "$ref": "#/$defs/avsender"
@@ -47,7 +42,6 @@
   "required": [
     "versjon",
     "innsendingsId",
-    "innsendingstidspunkt",
     "registrertFra",
     "registrertTilOgMed",
     "avsender",
