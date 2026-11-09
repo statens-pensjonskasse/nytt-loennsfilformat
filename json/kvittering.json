@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://spk.no/schemas/spk-medlemsdata/json/kvittering.json",
   "title": "Kvittering for innsending av tidslinjer",
-  "description": "SPKs svar på en innsending. MOTTATT og BEHANDLES er foreløpige: avsender henter kvitteringen på nytt etter så mange sekunder som Retry-After sier, til den er FERDIG eller AVVIST. De to er endelige og endres ikke. Avsender sender ikke neste innsending for samme arbeidsgiver før kvitteringen er endelig. Personer identifiseres med plassen sin i innsendingen, ikke med fødselsnummer.",
+  "description": "SPKs svar på en innsending. MOTTATT og BEHANDLES er foreløpige, og avsender henter kvitteringen på nytt etter Retry-After. FERDIG og AVVIST er endelige. Personer identifiseres med plassen sin i innsendingen.",
   "$comment": "Status: utkast",
   "type": "object",
   "properties": {
@@ -12,11 +12,11 @@
     "innsendingsId": {
       "$ref": "felles.json#/$defs/referanse",
       "title": "Innsendings-ID",
-      "description": "innsendingsId fra innsendingen kvitteringen gjelder. Utelates bare når innsendingen er avvist ved mottak uten at ID-en er lest: innsendingen er for stor (INNSENDING_FOR_STOR), ikke gyldig JSON, eller ID-en mangler eller følger ikke skjemaet."
+      "description": "innsendingsId fra innsendingen kvitteringen gjelder. Utelates når innsendingen er avvist ved mottak før ID-en er lest."
     },
     "mottaksreferanse": {
       "title": "Mottaksreferanse",
-      "description": "SPKs referanse til innsendingen, laget ved mottak. Kvitteringen hentes der svaret på innsendingen peker med Location. Utelates bare når innsendingen er avvist ved mottak.",
+      "description": "SPKs referanse til innsendingen, laget ved mottak. Utelates når innsendingen er avvist ved mottak.",
       "type": "string",
       "format": "uuid"
     },
@@ -26,7 +26,7 @@
     },
     "status": {
       "title": "Status",
-      "description": "MOTTATT: tatt imot, ikke behandlet. BEHANDLES: under behandling. FERDIG: behandlet, se resultat per person. AVVIST: hele innsendingen er avvist, se feil, enten ved mottak, uten mottaksreferanse, eller i behandlingen, med mottaksreferanse.",
+      "description": "MOTTATT: ikke behandlet. BEHANDLES: under behandling. FERDIG: behandlet, se personer. AVVIST: hele innsendingen er avvist, se feil.",
       "type": "string",
       "enum": [
         "MOTTATT",
@@ -123,7 +123,7 @@
         },
         "spkStillingsid": {
           "title": "SPKs stillingsid",
-          "description": "ID-en SPK har for stillingen fra før. Er koblingen feil, er dette tidligereStillingsid i stillingsidendringen som retter den.",
+          "description": "ID-en SPK har for stillingen fra før.",
           "type": "string",
           "minLength": 1
         }
@@ -146,7 +146,7 @@
         },
         "status": {
           "title": "Status",
-          "description": "Status for resultatet, MANUELL betyr manuell behandlig opprettet",
+          "description": "Status for resultatet, MANUELL betyr manuell behandling opprettet",
           "type": "string",
           "enum": [
             "OK",
@@ -156,7 +156,7 @@
         },
         "koblinger": {
           "title": "Koblinger",
-          "description": "Bare for OK. Nye stillingsid-er SPK har koblet til en stilling SPK har fra før, så stillingen beholder historikken sin. Er koblingen feil, sender avsender en stillingsidendring.",
+          "description": "Bare for OK. Nye stillingsid-er SPK har koblet til en stilling SPK har fra før. Er koblingen feil, sender avsender en stillingsidendring med spkStillingsid som tidligereStillingsid.",
           "type": "array",
           "items": {
             "$ref": "#/$defs/stillingskobling"
@@ -202,44 +202,37 @@
       "properties": {
         "kode": {
           "title": "Feilkode",
-          "description": "Stabil kode avsender kan programmere mot: et kontrollbrudd fra listen, eller SKJEMA_ og nøkkelordet i JSON Schema for brudd på skjemaet, for eksempel SKJEMA_REQUIRED. Nye koder kan komme i en minorversjon. Avsender må tåle koder den ikke kjenner, og vise melding.",
+          "description": "Stabil kode avsender kan programmere mot: et kontrollbrudd, eller SKJEMA_ og nøkkelordet i JSON Schema for brudd på skjemaet. Kjente kontrollbrudd står i examples. Nye koder kan komme i en minorversjon, og avsender må tåle koder den ikke kjenner.",
           "type": "string",
-          "anyOf": [
-            {
-              "enum": [
-                "JSON_UGYLDIG",
-                "FORMAT_UGYLDIG",
-                "ORGANISASJONSNUMMER_UGYLDIG",
-                "FOEDSELSNUMMER_UGYLDIG",
-                "REGISTRERT_FRA_ETTER_TIL",
-                "PERIODE_FOER_GJELDER_FRA",
-                "PERIODE_TIL_FOER_FRA",
-                "PERIODE_LOEPENDE_IKKE_SIST",
-                "PERIODE_OVERLAPP",
-                "SLUTTAARSAK_UTEN_SLUTT",
-                "STILLINGSID_DUPLIKAT",
-                "STILLINGSID_GJENBRUKT",
-                "FOEDSELSNUMMER_DUPLIKAT",
-                "TIMER_DUPLIKAT",
-                "TIMER_MAANED_FREM_I_TID",
-                "STILLINGSIDENDRING_DUPLIKAT",
-                "STILLINGSIDENDRING_SAMME_ID",
-                "STILLINGSIDENDRING_SAMME_NYE_ID",
-                "STILLINGSIDENDRING_KJEDE",
-                "GRUPPE_UKJENT",
-                "GRUPPE_MANGLER",
-                "STILLING_UKJENT",
-                "KOBLING_TVETYDIG",
-                "STILLINGSIDENDRING_UKJENT_STILLING",
-                "TIMER_STILLING_UKJENT",
-                "INNSENDINGSID_GJENBRUKT",
-                "INNSENDING_FOR_STOR",
-                "BEHANDLING_FEILET"
-              ]
-            },
-            {
-              "pattern": "^[A-Z][A-Z0-9_]{0,49}$"
-            }
+          "pattern": "^[A-Z][A-Z0-9_]{0,49}$",
+          "examples": [
+            "JSON_UGYLDIG",
+            "ORGANISASJONSNUMMER_UGYLDIG",
+            "FOEDSELSNUMMER_UGYLDIG",
+            "REGISTRERT_FRA_ETTER_TIL",
+            "PERIODE_FOER_GJELDER_FRA",
+            "PERIODE_TIL_FOER_FRA",
+            "PERIODE_LOEPENDE_IKKE_SIST",
+            "PERIODE_OVERLAPP",
+            "SLUTTAARSAK_UTEN_SLUTT",
+            "STILLINGSID_DUPLIKAT",
+            "STILLINGSID_GJENBRUKT",
+            "FOEDSELSNUMMER_DUPLIKAT",
+            "TIMER_DUPLIKAT",
+            "TIMER_MAANED_FREM_I_TID",
+            "STILLINGSIDENDRING_DUPLIKAT",
+            "STILLINGSIDENDRING_SAMME_ID",
+            "STILLINGSIDENDRING_SAMME_NYE_ID",
+            "STILLINGSIDENDRING_KJEDE",
+            "GRUPPE_UKJENT",
+            "GRUPPE_MANGLER",
+            "STILLING_UKJENT",
+            "KOBLING_TVETYDIG",
+            "STILLINGSIDENDRING_UKJENT_STILLING",
+            "TIMER_STILLING_UKJENT",
+            "INNSENDINGSID_GJENBRUKT",
+            "INNSENDING_FOR_STOR",
+            "BEHANDLING_FEILET"
           ]
         },
         "melding": {

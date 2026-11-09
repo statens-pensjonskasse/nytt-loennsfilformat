@@ -6,7 +6,7 @@
   "$defs": {
     "versjon": {
       "title": "Skjemaversjon",
-      "description": "Versjonen av formatet innsendingen eller kvitteringen følger, Semantisk versjonering (https://semver.org). Så lenge formatet er en POC, er versjonen 0.x.y-SNAPSHOT og kan endres når som helst uten bakoverkompatibilitet; tidligere versjoner fjernes når en ny kommer. Fra 1.0.0 gjelder disse presiseringene: innenfor samme majorversjon skal filer som validerte tidligere, fortsatt validere; nye enum-verdier og nye valgfrie felter kan legges til i en minorversjon, men eksisterende verdier fjernes aldri uten ny majorversjon.",
+      "description": "Versjonen av formatet filen følger, etter semantisk versjonering. Innenfor samme majorversjon validerer en fil som validerte før, fortsatt.",
       "type": "string",
       "enum": [
         "3.0.0-SNAPSHOT"
@@ -14,7 +14,7 @@
     },
     "referanse": {
       "title": "Referanse",
-      "description": "Avsenders egen, stabile identifikator 1-64 tegn a-z/A-Z, sifre og . _ : -, der første tegn er en bokstav eller et siffer. Må ikke inneholde personopplysninger",
+      "description": "Avsenders egen, stabile identifikator. Inneholder ikke personopplysninger.",
       "type": "string",
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,63}$",
       "examples": [
@@ -55,7 +55,7 @@
     },
     "beloepOere": {
       "title": "Beløp i øre",
-      "description": "Beløp i norske kroner oppgitt som heltall i øre: 100 = 1 krone. Brukes i stedet for desimaltall slik at verdien aldri blir et flyttall",
+      "description": "Beløp i norske kroner som heltall i øre.",
       "type": "integer",
       "minimum": 0,
       "maximum": 9223372036854775807,
@@ -66,7 +66,7 @@
     },
     "basispunkter": {
       "title": "Prosent i basispunkter",
-      "description": "Prosentandel som heltall i basispunkter, det vil si hundredeler av en prosent: 10 000 = 100%, 8 694 = 86,94%. Brukes i stedet for desimaltall slik at verdien aldri blir et flytall",
+      "description": "Prosentandel som heltall i basispunkter, det vil si hundredeler av en prosent.",
       "type": "integer",
       "exclusiveMinimum": 0,
       "maximum": 10000,
