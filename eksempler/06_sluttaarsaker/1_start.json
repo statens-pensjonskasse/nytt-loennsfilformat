@@ -1,8 +1,6 @@
 {
   "versjon": "3.0.0-SNAPSHOT",
   "innsendingsId": "sluttaarsaker-1",
-  "registrertFra": "2025-12-31T23:00:00Z",
-  "registrertTilOgMed": "2026-01-12T10:00:00Z",
   "avsender": {
     "loennssystemkode": "LS1",
     "systemnavn": "Eksempel Lønn",

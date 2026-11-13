@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://spk.no/schemas/spk-medlemsdata/json/tidslinje.json",
   "title": "Innsending av tidslinjer",
-  "description": "Lønns- og stillingsdata fra en arbeidsgiver som tidslinjer per person. For hver person erstatter SPK alt fra og med gjelderFraOgMed med periodene i innsendingen. En person som er med, har med alt som er registrert til og med registrertTilOgMed og ikke er sendt før. En person med endringer trenger ikke være med, og endringene sendes da senere. Avsender sender bare en innsending om gangen per arbeidsgiver og venter på endelig kvittering før neste.",
+  "description": "Lønns- og stillingsdata fra en arbeidsgiver som tidslinjer per person. For hver person erstatter SPK alt fra og med gjelderFraOgMed med periodene i innsendingen. En person som er med, har med alt som er registrert og ikke er sendt før. En person med endringer trenger ikke være med, og endringene sendes da senere. Avsender sender bare en innsending om gangen per arbeidsgiver og venter på endelig kvittering før neste.",
   "$comment": "Status: utkast",
   "type": "object",
   "properties": {
@@ -13,16 +13,6 @@
       "$ref": "felles.json#/$defs/referanse",
       "title": "Innsendings-ID",
       "description": "Avsenders unike ID for innsendingen per innsender, lønnssystem og arbeidsgiver, og idempotensnøkkel. Samme ID med samme innhold gir kvitteringen fra første gang, og samme ID med annet innhold avvises med INNSENDINGSID_GJENBRUKT. En innsendingsId er brukt når innsendingen er tatt imot, også om den avvises i behandlingen. Avvises innsendingen ved mottak, kan samme innsendingsId brukes igjen."
-    },
-    "registrertFra": {
-      "$ref": "felles.json#/$defs/tidspunkt",
-      "title": "Registrert fra",
-      "description": "Begynnelsen av tidsrommet innsendingen dekker, lik registrertTilOgMed i forrige innsending for arbeidsgiveren. En person kan ha med endringer registrert før dette tidspunktet, hvis de ikke er sendt før."
-    },
-    "registrertTilOgMed": {
-      "$ref": "felles.json#/$defs/tidspunkt",
-      "title": "Registrert til og med",
-      "description": "Slutten av tidsrommet innsendingen dekker. Kan være tidligere enn mottakstidspunkt i kvitteringen."
     },
     "avsender": {
       "$ref": "#/$defs/avsender"
@@ -42,8 +32,6 @@
   "required": [
     "versjon",
     "innsendingsId",
-    "registrertFra",
-    "registrertTilOgMed",
     "avsender",
     "arbeidsgiver",
     "personer"
@@ -125,7 +113,7 @@
         },
         "timer": {
           "title": "Timer",
-          "description": "Timer registrert til og med registrertTilOgMed og ikke sendt før, med bare en post per stilling og måned. En person kan ha timer uten tidslinje. Utelates når ingen timer er registrert.",
+          "description": "Timer som er registrert og ikke sendt før, med bare en post per stilling og måned. En person kan ha timer uten tidslinje. Utelates når ingen timer er registrert.",
           "type": "array",
           "minItems": 1,
           "items": {

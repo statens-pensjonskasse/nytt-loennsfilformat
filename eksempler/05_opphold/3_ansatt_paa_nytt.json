@@ -1,8 +1,6 @@
 {
   "versjon": "3.0.0-SNAPSHOT",
   "innsendingsId": "opphold-3",
-  "registrertFra": "2026-06-10T10:00:00Z",
-  "registrertTilOgMed": "2026-09-08T10:00:00Z",
   "avsender": {
     "loennssystemkode": "LS1",
     "systemnavn": "Eksempel Lønn",

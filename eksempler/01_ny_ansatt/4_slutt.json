@@ -1,8 +1,6 @@
 {
   "versjon": "3.0.0-SNAPSHOT",
   "innsendingsId": "ny-ansatt-4",
-  "registrertFra": "2026-10-13T10:00:00Z",
-  "registrertTilOgMed": "2027-01-12T10:00:00Z",
   "avsender": {
     "loennssystemkode": "LS1",
     "systemnavn": "Eksempel Lønn",
