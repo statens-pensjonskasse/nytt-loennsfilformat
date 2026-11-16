@@ -664,7 +664,7 @@
         "hovedloennOere": {
           "$ref": "felles.json#/$defs/beloepOere",
           "title": "Hovedlønn",
-          "description": "Faktisk utbetalt årslønn i den stillingsstørrelsen den ansatte har. Beløpet er ikke omregnet til full stilling. Inkluderer kronetillegg fra lokale forhandlinger. Utelates for timelønnede."
+          "description": "Faktisk årslønn i den stillingsstørrelsen den ansatte har. Beløpet er ikke omregnet til full stilling. Inkluderer kronetillegg fra lokale forhandlinger. Under permisjon er det lønnen for hele stillingen, ikke bare den lønnede delen, og lønnsøkninger sendes også under hel permisjon. Utelates for timelønnede."
         },
         "tillegg": {
           "$ref": "#/$defs/tillegg"
@@ -700,7 +700,7 @@
     },
     "permisjon": {
       "title": "Permisjon",
-      "description": "Permisjon uten lønn fra stillingen. Permisjon med full lønn og permisjon under 30 dager rapporteres ikke.",
+      "description": "Permisjon uten lønn fra stillingen, slik den er registrert i lønnssystemet. Stillingsstørrelsen og hovedlønnen gjelder hele stillingen også under permisjon. Permisjonen sendes også når den begynner samme dag som stillingen. SPK vurderer selv om den medregnes. Permisjon med full lønn og permisjon under 30 dager rapporteres ikke.",
       "type": "object",
       "properties": {
         "type": {
@@ -720,7 +720,7 @@
         },
         "permisjonsavtale": {
           "title": "Permisjonsavtale",
-          "description": "Punktet i permisjonsavtalen permisjonen gjelder etter, 1a–6b for staten og A.xx for apotekordningen. Fødsel og adopsjon meldes som 6a. Utelates for ulønnet permisjon som ikke medregnes.",
+          "description": "Punktet i permisjonsavtalen permisjonen gjelder etter, 1a–6b for staten og A.xx for apotekordningen. Fødsel og adopsjon meldes som 6a. SPK finner antall år som medregnes fra punktet. Utelates for ulønnet permisjon som ikke medregnes.",
           "type": "string",
           "oneOf": [
             {
@@ -808,7 +808,7 @@
         "permisjonsprosentBasispunkter": {
           "$ref": "felles.json#/$defs/basispunkter",
           "title": "Permisjonsprosent",
-          "description": "Hvor stor del av stillingen som er uten lønn. Påkrevd ved delvis permisjon. Er hele stillingen uten lønn, er det hel permisjon.",
+          "description": "Hvor stor del av stillingen som er uten lønn, regnet av stillingsstørrelsen og ikke av full stilling. Er en femtedel av en 75 % stilling uten lønn, er permisjonen 20 %. Påkrevd ved delvis permisjon. Er hele stillingen uten lønn, er det hel permisjon.",
           "maximum": 9999
         }
       },

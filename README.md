@@ -77,8 +77,15 @@ Spørsmål:
   det nye timetallet for måneden. Er 80 timer i mars rettet til 95, sendes 95.
 - Overtid og hviletid er ikke med, og 0 timer betyr at personen ikke jobbet. En måned kan ha høyst 300 timer, som
   for timelønn i a-meldingen.
-- Delvis permisjon oppgis med hvor stor del av stillingen som er uten lønn. Permisjon med full lønn og permisjon
-  under 30 dager rapporteres ikke.
+- Permisjon meldes motsatt av v2.7. Stillingsstørrelsen er hele stillingen, også under permisjon, og delvis
+  permisjon oppgis med hvor stor del av stillingen som er uten lønn. Prosenten regnes av stillingen. Er en
+  femtedel av en 75 % stilling uten lønn, meldes den som 75 % med 20 % permisjon. Hovedlønnen er lønnen for hele
+  stillingen. Permisjon med full lønn og permisjon under 30 dager rapporteres ikke.
+- Permisjonen sendes slik den er registrert, også når den begynner samme dag som stillingen. SPK vurderer selv om
+  permisjonen medregnes.
+- Lønnen sendes slik den er, også under hel permisjon og uansett fødselsår. SPK avgjør fra hvilken dato en
+  lønnsøkning under permisjon teller. Lønnsøkninger fra et lønnsoppgjør meldes fra datoen de gjelder fra.
+- Antall år permisjonen medregnes, sendes ikke. SPK finner det fra punktet i permisjonsavtalen.
 
 Spørsmål:
 
@@ -88,6 +95,8 @@ Spørsmål:
 4. Er timer per uke for full stilling og arbeidstidsordning registrert per stilling?
 5. Hvordan registrerer dere delvis permisjon i dag? Er det prosenten uten lønn eller prosenten med lønn som
    lagres? Gjelder en fraværsprosent bare permisjon uten lønn?
+6. Oppdaterer dere lønnen for ansatte i hel permisjon når det kommer et lønnsoppgjør, eller først når de er
+   tilbake?
 
 **Svaret fra SPK**
 
