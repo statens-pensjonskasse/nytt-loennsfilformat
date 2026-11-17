@@ -10,10 +10,5 @@
     "status" : "OK",
     "koblinger" : [ ],
     "feil" : [ ]
-  }, {
-    "indeks" : 1,
-    "status" : "OK",
-    "koblinger" : [ ],
-    "feil" : [ ]
   } ]
 }

@@ -7,4 +7,4 @@ En timelønnet stilling har timer per uke i full stilling og arbeidstidsordning 
 - `3_timer_juli_og_rettet_juni`: Lønnssystemet sender timene for juli og retter juni til 45 timer. Timene for en måned erstatter det som er sendt for samme måned før, så rettelsen inneholder hele timetallet for juni.
 - `4_slutt`: Personen slutter 31. august, og timene for august sendes i samme innsending.
 
-SPK regner timene om til stillingsstørrelse. En full stilling på 37,5 timer per uke tilsvarer 37,5 × 52 / 12 = 162,5 timer i måneden, så 45 timer i juni gir 27,69 % og 60,25 timer i juli gir 37,08 %.
+Lønnssystemet sender bare timene og regner ikke ut stillingsstørrelse. SPK regner timene om til stillingsstørrelse.
